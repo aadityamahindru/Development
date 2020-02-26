@@ -1,8 +1,10 @@
+let fs=require("fs")
+let path =require("path")
 module.exports.view=function(){
    let src=arguments[0];
    let mode=arguments[1]
 if(mode=="-t"){
-viewAsTree(src)
+viewAsTree("",src)
 }else if(mode=="-f")
 {
 viewAsFlatFiles(src)
@@ -12,9 +14,38 @@ else
     console.log("Wrong Parameter")
 }
 }
-function viewAsTree(){
-    console.log("view as tree is working")
+function viewAsTree(indent,src){
+    let ans=fs.lstatSync(src).isDirectory()
+    if(ans==false)
+    {
+        console.log(indent+path.basename(src)+"*")
+    }
+    else{
+        console.log(indent+path.basename(src))
+        let childrens=fs.readdirSync(src);
+        for(let i=0;i<childrens.length;i++)
+        {
+            let str=path.join(src,childrens[i])
+            viewAsTree(indent+"\t",str)
+        }
+    }
 }
-function viewAsFlatFiles(){
-console.log("view as flatfile is working")
+function viewAsFlatFiles(src){
+    let ans=fs.lstatSync(src).isDirectory()
+    if(ans==false)
+    {
+        console.log(src+"*");
+
+    }
+    else
+    { 
+        console.log(src);
+        
+    let childrens=fs.readdirSync(src);
+        for(let i=0;i<childrens.length;i++)
+        {
+            let str=path.join(src,childrens[i])
+            viewAsFlatFiles(str)
+        }
+}
 }

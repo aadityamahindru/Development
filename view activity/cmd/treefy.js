@@ -1,5 +1,5 @@
 module.exports.treefy=function(){
-    let src=arguments[0];
-    let dest=arguments[1]
+    let dest=arguments[0];
+    let src=arguments[1]
     
 }
