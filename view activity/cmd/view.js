@@ -7,7 +7,7 @@ if(mode=="-t"){
 viewAsTree("",src)
 }else if(mode=="-f")
 {
-viewAsFlatFiles(src)
+viewAsFlatFiles("",src)
 }
 else
 {
@@ -30,22 +30,23 @@ function viewAsTree(indent,src){
         }
     }
 }
-function viewAsFlatFiles(src){
+function viewAsFlatFiles(ref,src){
+    ref=path.join(ref,path.basename(src));
     let ans=fs.lstatSync(src).isDirectory()
     if(ans==false)
     {
-        console.log(src+"*");
+        console.log(ref+"*");
 
     }
     else
     { 
-        console.log(src);
+        console.log(ref);
         
     let childrens=fs.readdirSync(src);
         for(let i=0;i<childrens.length;i++)
         {
             let str=path.join(src,childrens[i])
-            viewAsFlatFiles(str)
+            viewAsFlatFiles(ref,str)
         }
 }
 }
