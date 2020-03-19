@@ -7,7 +7,7 @@ function mymap(arr,cb)
     }
     return(b);
 }
-function myfilter(arr,cb)
+ function myfilter(arr,cb)
 { let b=[],j=0;
     for(let i=0;i<arr.length;i++)
     {
