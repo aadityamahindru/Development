@@ -1,7 +1,7 @@
 let request=require("request")
 let fs=require("fs")
 let cheerio=require("cheerio")
-request("https://www.espncricinfo.com/series/19315/commentary/1187004",
+request("https://www.espncricinfo.com/series/19322/commentary/1187683",
 function(err,res,html){
     
     if(err==null&&res.statusCode==200)
@@ -21,6 +21,6 @@ function(err,res,html){
 function parsehtml(html)
 {
     let $=cheerio.load(html)
-    let dis=$($(".comment")[0]).text();
+    let dis=$($(".description")[0]).text();
     console.log(dis)
 }
