@@ -1,9 +1,26 @@
 [
     {
-    "url": "https://www.pepcoding.com/resources/placement-program---bpit/recursion/factorial-official/ojquestion",
     "module": "Dynamic Programming",
-    "lecture": "Recursion",
-    "problem": "Factorial",
-    "path": "./codes/code1"
+    "lecture": "Dynamic Programming and Greedy",
+    "problem": "Fibonacci-dp",
+    "path": "./codes/code1.java"
+    },
+    {
+        "module":"Data Structure and Algorithms",
+        "lecture":"Function and Arrays",
+        "problem":"Bar Chart",
+        "path":"./codes/code2.java"
+    },
+    {
+        "module":"Data Structure and Algorithms",
+        "lecture":"Recursion",
+        "problem":"N Queens",
+        "path":"./codes/code3.java"
+    },
+    {
+        "module":"Data Structure and Algorithms",
+        "lecture":"2D Arrays",
+        "problem":"Shell Rotate",
+        "path":"./codes/code4.java"
     }
 ]
