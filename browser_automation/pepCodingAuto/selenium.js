@@ -66,13 +66,8 @@ let credentialfileWillBeReadPromise = fs.promises.readFile(credentialFile)
         return metadataReadPromise
     }).then(function (metadata) {
         metadata = JSON.parse(metadata);
-        let ques = metadata[1]
-        let quesOpenPromise = goToQuestionPage(ques)
-        return quesOpenPromise
-    }).then(function () {
-      // driver.navigate().back();
-      //  driver.navigate().back();
-
+        let allQues=readAllQues(metadata)
+        return allQues
     })
     .catch(function (err) {
         console.log(err)
@@ -160,7 +155,11 @@ let credentialfileWillBeReadPromise = fs.promises.readFile(credentialFile)
               }
               let combined=Promise.all([outputClick,actualOpClick])
               return combined
-            })
+            }).then(function(){
+              driver.navigate().back();
+              driver.navigate().back();
+              driver.navigate().back();
+            }).then(willWaitForOverlay)
               .then(function () {
                 resolve();
               }).catch(function () {
@@ -225,4 +224,16 @@ let credentialfileWillBeReadPromise = fs.promises.readFile(credentialFile)
                 reject(err);
               })
           })
+        }
+        function readAllQues(metadata)
+        {
+            let quesDetails=goToQuestionPage(metadata[0])
+            for(let i=1;i<metadata.length;i++)
+            { let ques=metadata[i];
+              quesDetails=quesDetails.then(function(){
+                  let nq=goToQuestionPage(ques);
+                  return nq;
+              })
+            }
+            return quesDetails
         }

@@ -1,0 +1,1 @@
+node moderator "credential.json" "./questions.js"
