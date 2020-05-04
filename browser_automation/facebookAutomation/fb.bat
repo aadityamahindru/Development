@@ -1,1 +1,1 @@
-node facebook "credential.json" "The Hindu" 50
+node facebook "credential.json" "https://www.facebook.com/thehindu/" 50
