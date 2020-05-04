@@ -1,0 +1,1 @@
+node facebook "credential.json" "The Hindu" 50
