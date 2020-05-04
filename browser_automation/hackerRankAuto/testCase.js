@@ -57,7 +57,6 @@ async function getMeQuestion(qIdx)
 {
     let pIdx=Math.floor(qIdx/10);
     let qNo=qIdx%10;
-    console.log(qNo+" "+pIdx)
     for(let i=0;i<pIdx;i++)
     {   
         let buttons=await driver.findElements(swd.By.css(".pagination ul li"));
@@ -79,6 +78,7 @@ async function handleQuestion(question)
     await driver.wait(swd.until.elementLocated(swd.By.css("span.tag")))
     let testCaseTab=await driver .findElement(swd.By.css("li[data-tab=testcases]"))
     await testCaseTab.click();
+    let tUrl=await driver.getCurrentUrl()
     let testCases=question["Testcases"];    
     for(let i=0;i<testCases.length;i++)
     {   
@@ -91,6 +91,8 @@ async function handleQuestion(question)
         await editorHandler(".output-testcase-row .CodeMirror div",output,reqTestCase["Output"]);
         let saveBtn= await driver.findElement(swd.By.css(".btn.btn-primary.btn-large.save-testcase"))
         await saveBtn.click();
+        await driver.get(tUrl)
+        await waitForLoader();
     }
 }
 async function editorHandler(parentSelector,element ,data)
