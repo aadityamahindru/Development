@@ -47,7 +47,7 @@ def spiral_display(arr)
                 k +=1;
             end
         end
-        rmin -=1;
+        rmin +=1;
     end
 end
 spiral_display(arr);

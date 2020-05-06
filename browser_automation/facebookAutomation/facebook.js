@@ -38,9 +38,18 @@ let nPost =process.argv[4];
             await page.waitForSelector("._666k ._8c74")
             let like=await post.$("._666k ._8c74")
             await like.click({delay:100});
-            idx++;
-            await page.waitForSelector(".uiMorePagerLoader",{hidden:true})
             console.log(idx)
+            let val=(idx+1)%7==0?true:false
+            if(val)
+            {
+                let chain= await page.$("#pagelet_timeline_main_column ._1xnd .clearfix.uiMorePager")
+                await page.evaluate(function(ele){
+                    console.log("executing")
+                    ele.scrollIntoView()
+                },chain)
+                await page.waitForSelector(".uiMorePagerLoader",{hidden:true})
+            }
+            idx++;
         }while(idx<nPost)
     }
     catch(err)
