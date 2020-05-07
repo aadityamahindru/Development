@@ -1,0 +1,1 @@
+node applyCourse "credential.json"
