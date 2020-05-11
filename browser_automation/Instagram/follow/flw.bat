@@ -1,0 +1,1 @@
+node follow "credentials.json" "./followlist.js"
