@@ -1,1 +1,0 @@
-node online "One Plus 7" "C:\Users\AAditya\Desktop\Development\browser_automation\onlineShopping\data"

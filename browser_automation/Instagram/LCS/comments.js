@@ -1,1 +1,0 @@
-module.exports=["Delicious!!!","Amazing!!","This looks Yummy!!","Wow!!!","Super drooling"]

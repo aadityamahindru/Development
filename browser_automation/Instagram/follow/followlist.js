@@ -1,1 +1,0 @@
-module.exports=["aliaabhatt","aaditya.06","virat.kohli","anushkasharma"];
