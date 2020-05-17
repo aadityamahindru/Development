@@ -63,9 +63,9 @@ let noOfPosts=process.argv[5];
             if(idx!=noOfPosts-1)
             await page.click(".coreSpriteRightPaginationArrow")
             idx++;
-            j++
             if(j==comments.length-1)
             j=0;
+            j++
         }
     }
     catch(err)
