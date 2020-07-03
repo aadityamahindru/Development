@@ -1,6 +1,8 @@
 html,body{
 padding: 0px;
 margin: 0px;
+font-size: 1rem;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 *{
     box-sizing: border-box;
@@ -67,5 +69,23 @@ margin: 0px;
     min-height: 25px;
     border: 1px solid lightseagreen;
     min-width: 87px;
+    text-align: center;
+}
+.ib{
+    display: inline-block;
+}
+.menu-items{
+    text-align: center;
+    width: 45px;
+    font-size: 90%;
+}
+.menu-options-item{
+    display: none;
+}
+.selected{
+    display: block;
+}
+#File-options>div{
+    width: 50px;
     text-align: center;
 }
