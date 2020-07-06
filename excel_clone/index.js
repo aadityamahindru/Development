@@ -8,7 +8,7 @@ $(document).ready(
             let rid=Number($(this).attr("row-id"));
             let cid=Number($(this).attr("col-id"));
             let ciAdrr = String.fromCharCode(cid + 65);
-            $("#address-container").val(ciAdrr +(rid));
+            $("#address-container").val(ciAdrr +(rid+1));
         })
         $(".menu-items").on("click",function(){
             $(".menu-options-item").removeClass("selected");
@@ -21,18 +21,123 @@ $(document).ready(
                 let row=[];
                 let cells=$(rows[i]).find(".cell");
                 for(let j=0;j<cells.length;j++){
-                    let cell=""
+                    let cell={
+                        value:"",
+                        formula:"",
+                        downstream:[],
+                        upstream:[]
+                    }
                     $(cells[j]).html("");
                     row.push(cell);
                 }
                 db.push(row);
             }
         })
-        $("#grid .cell").on("keyup",function(){
-            let rid=Number($(this).attr("row-id"));
-            let cid=Number($(this).attr("col-id"));
-            db[rid][cid]=$(this).html();
+        $("#grid .cell").on("blur",function(){
+            let{rowId,colId}=getRc(this);  //get row and col id of current cell
+            let cellObject=getCellObject(rowId,colId); // get cell object of cell
+            if($(this).html()==cellObject.value){
+                return;
+            }
+            if(cellObject.formula){
+                removeFormula(cellObject,rowId,colId)
+            }
+            cellObject.value=$(this).html();
+            // updateCell=> update self // childrens(UI changes)
+            updateCell(rowId,colId,$(this).html(),cellObject);
         })
+        $("#formula-container").on("blur",function(){
+            let address=$("#address-container").val();
+            let {rowId,colId}=getRcFromAddress(address);
+            let cellObject=getCellObject(rowId,colId);
+            let formula=$(this).val();
+            if(cellObject.formula==$(this).val()){
+                return;
+            }
+            if(cellObject.formula){
+                removeFormula(cellObject,rowId,colId)
+            }
+            cellObject.formula=formula;
+            let evaluatedVal=evaluate(cellObject);
+            setUpFormula(rowId,colId,formula)
+            updateCell(rowId,colId,evaluatedVal,cellObject);
+        })
+        function setUpFormula(rowId,colId,formula){
+            let cellObject=getCellObject(rowId,colId);
+            let formulaComponent=formula.split(" ");
+            for(let i=0;i<formulaComponent.length;i++){
+                let code=formulaComponent[i].charCodeAt(0);
+                if(code>=65&&code<=90){
+                    let parentRc=getRcFromAddress(formulaComponent[i]);
+                    let fParent=db[parentRc.rowId][parentRc.colId];
+                    //set yourself to parent's downstream
+                    fParent.downstream.push({
+                        rowId,
+                        colId
+                    })
+                    cellObject.upstream.push({
+                        rowId: parentRc.rowId,
+                        colId:parentRc.colId
+                    })
+                }
+            }
+        }
+        function evaluate(cellObject){
+            console.log(cellObject);
+            let formula=cellObject.formula;
+            let formulaComponent=formula.split(" ");
+            for(let i=0;i<formulaComponent.length;i++){
+                let code=formulaComponent[i].charCodeAt(0);
+                if(code>=65&&code<=90){
+                    let parentRc=getRcFromAddress(formulaComponent[i]);
+                    let fParent=db[parentRc.rowId][parentRc.colId];
+                    let value=fParent.value;
+                    formula=formula.replace(formulaComponent[i],value);
+                }
+            }
+            console.log(formula);
+            let ans=eval(formula);
+            console.log(ans);
+            return ans;
+        }
+        function updateCell(rowId,colId,val,cellObject){
+            $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html(val);
+            cellObject.value=val;
+            for(let i=0;i<cellObject.downstream.length;i++){
+                let dsorc=cellObject.downstream[i];
+                let dsobj=db[dsorc.rowId][dsorc.colId];
+                let evaluatedVal=evaluate(dsobj);
+                updateCell(dsorc.rowId,dsorc.colId,evaluatedVal,dsobj);
+            }
+        }
+        function removeFormula(cellObject,rowId,colId){
+            for(let i=0;i<cellObject.upstream.length;i++){
+                let uso=cellObject.upstream[i];
+                let fuso=db[uso.rowId][uso.colId];
+                let fds=fuso.downstream.filter(function(rc){
+                    return !(rc.rowId==rowId&&rc.colId==colId)
+                })
+                fuso.downstream=fds;
+            }
+            cellObject.upstream=[];
+            cellObject.formula="";
+        }
+        function getRcFromAddress(address){
+            let colId = address.charCodeAt(0) - 65;
+            let rowId = Number(address.substring(1)) - 1;
+            return { colId, rowId };
+        }
+        function getRc(elem){
+            let rowId = $(elem).attr("row-id");
+            let colId = $(elem).attr("col-id");
+            return {
+                rowId,
+                colId
+            }
+        }
+        function getCellObject(rowId,colId){
+            return db[rowId][colId];
+        }
         $("#Save").on("click",async function(){
             let sdb=await dialog.showOpenDialog();
             let jsonData=JSON.stringify(db)
@@ -47,7 +152,7 @@ $(document).ready(
             for(let i=0;i<rows.length;i++){
                 let cells=$(rows[i]).find(".cell");
                 for(let j=0;j<cells.length;j++){
-                    $(cells[j]).html(dbs[i][j]);
+                    $(cells[j]).html(dbs[i][j].value);
                 }
             }
         })

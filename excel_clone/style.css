@@ -10,18 +10,22 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 .menu {
     height: 22px;
     border: 1px solid red;
+    background-color: deeppink;
 }
 .menu-options {
     height: 56px;
     border: 1px solid green;
+    background-color: lightcoral;
 }
 .sheets {
     height: 20px;
     border: 1px solid darkslategray;
+    background-color: palevioletred;
 }
 .formula-bar {
     height: 26px;
     border: 1px solid yellow;
+    background-color: sandybrown;
 }
 .cell-container {
     height: calc(100vh - 124px);
@@ -31,7 +35,7 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 .top-left-cell{
     height: 25px;
     width: 25px;
-    background-color:deeppink;
+    background-color:hotpink;
     position: absolute;
 }
 .top-row{
@@ -73,11 +77,11 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .ib{
     display: inline-block;
+    cursor:default;
 }
 .menu-items{
     text-align: center;
     width: 45px;
-    font-size: 90%;
 }
 .menu-options-item{
     display: none;
@@ -88,4 +92,12 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 #File-options>div{
     width: 50px;
     text-align: center;
+}
+.ib:hover{
+    background-color: darkslategrey;
+    color: aliceblue;
+}
+input[type="text"] {
+    background-color: cornsilk;
+    border: 1.5px solid black;
 }
