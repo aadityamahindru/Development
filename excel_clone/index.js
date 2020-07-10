@@ -4,12 +4,49 @@ let dialog=require("electron").remote.dialog;
 $(document).ready(
     function(){
         let db=[];
+        let lastSCell;
         $("#grid .cell").on("click",function(){
             let rid=Number($(this).attr("row-id"));
             let cid=Number($(this).attr("col-id"));
             let ciAdrr = String.fromCharCode(cid + 65);
             $("#address-container").val(ciAdrr +(rid+1));
             $("#formula-container").val(db[rid][cid].formula);
+            //check for styling buttons
+            let cellObject=db[rid][cid];
+            if(!cellObject.bold){
+                $("#bold").removeClass("selected")
+            }else{
+                $("#bold").addClass("selected")
+            }
+            if(!cellObject.underline){
+                $("#underline").removeClass("selected")
+            }else{
+                $("#underline").addClass("selected")
+            }
+            if(!cellObject.italic){
+                $("#italic").removeClass("selected")
+            }else{
+                $("#italic").addClass("selected")
+            }
+            let align=cellObject.align;
+            if(align.localeCompare("left")==0){
+                $("#left").addClass("selected");
+                $("#center").removeClass("selected")
+                $("#right").removeClass("selected")
+            }else if(align.localeCompare("center")==0){
+                $("#center").addClass("selected");
+                $("#left").removeClass("selected")
+                $("#right").removeClass("selected")
+
+            }else{
+                $("#right").addClass("selected");
+                $("#center").removeClass("selected")
+                $("#left").removeClass("selected")
+            }
+            $(this).addClass("selected");
+            if (lastSCell && lastSCell != this)
+                $(lastSCell).removeClass("selected");
+            lastSCell = this;
         })
         $(".menu-items").on("click",function(){
             $(".menu-options-item").removeClass("selected");
@@ -175,8 +212,71 @@ $(document).ready(
                 let cells=$(rows[i]).find(".cell");
                 for(let j=0;j<cells.length;j++){
                     $(cells[j]).html(dbs[i][j].value);
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize);
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
                 }
             }
+        })
+        // home menu
+        $("#bold").on("click",function(){
+            $(this).toggleClass("selected");
+            let isBold=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("font-weight",isBold?"bold":"normal");
+            let selectedCell=$("#grid .cell.selected")
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].bold=isBold
+        })
+        $("#underline").on("click",function(){
+            $(this).toggleClass("selected");
+            let isUnderline=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("text-decoration",isUnderline?"underline":"none");
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].underline=isUnderline
+        })
+        $("#italic").on("click",function(){
+            $(this).toggleClass("selected");
+            let isItalic=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("font-style",isItalic?"italic":"normal");
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].italic=isItalic
+        })
+        $("#left").on("click",function(){
+            $(this).toggleClass("selected");
+            let isLeft=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("text-align",isLeft?"left":"left");
+            $("#center").removeClass("selected")
+            $("#right").removeClass("selected")
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].align=isLeft?"left":"left";
+        })
+        $("#center").on("click",function(){
+            $(this).toggleClass("selected");
+            let isCenter=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("text-align",isCenter?"center":"left");
+            $("#left").removeClass("selected")
+            $("#right").removeClass("selected")
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].align=isCenter?"center":"left"
+        })
+        $("#right").on("click",function(){
+            $(this).toggleClass("selected");
+            let isRight=$(this).hasClass("selected");
+            $("#grid .cell.selected").css("text-align",isRight?"right":"left");
+            $("#center").removeClass("selected")
+            $("#left").removeClass("selected")
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].align=isRight?"right":"left";
         })
         function init(){
             $("#File").trigger("click")
