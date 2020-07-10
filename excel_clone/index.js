@@ -9,6 +9,7 @@ $(document).ready(
             let cid=Number($(this).attr("col-id"));
             let ciAdrr = String.fromCharCode(cid + 65);
             $("#address-container").val(ciAdrr +(rid+1));
+            $("#formula-container").val(db[rid][cid].formula);
         })
         $(".menu-items").on("click",function(){
             $(".menu-options-item").removeClass("selected");
@@ -25,9 +26,25 @@ $(document).ready(
                         value:"",
                         formula:"",
                         downstream:[],
-                        upstream:[]
+                        upstream:[],
+                        fontfamily: "Arial",
+                        fontSize: 12,
+                        bold: false,
+                        underline: false,
+                        italic: false,
+                        textColor: "#000000",
+                        bgColor: "white",
+                        align: 'left'
                     }
                     $(cells[j]).html("");
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize);
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
                     row.push(cell);
                 }
                 db.push(row);
@@ -42,9 +59,14 @@ $(document).ready(
             if(cellObject.formula){
                 removeFormula(cellObject,rowId,colId)
             }
-            cellObject.value=$(this).html();
             // updateCell=> update self // childrens(UI changes)
             updateCell(rowId,colId,$(this).html(),cellObject);
+        })
+        $("#cell-container").on("scroll",function(){
+            let scrollX=$(this).scrollLeft();
+            let scrollY=$(this).scrollTop();
+            $("#top-left-cell , #top-row").css("top",scrollY+"px");
+            $("#top-left-cell , #left-col").css("left",scrollX+"px");
         })
         $("#formula-container").on("blur",function(){
             let address=$("#address-container").val();
@@ -138,10 +160,10 @@ $(document).ready(
         function getCellObject(rowId,colId){
             return db[rowId][colId];
         }
-        $("#Save").on("click",async function(){
-            let sdb=await dialog.showOpenDialog();
+        $("#Save").on("click",function(){
+            let path=dialog.showSaveDialogSync();
             let jsonData=JSON.stringify(db)
-            fs.writeFileSync(sdb.filePaths[0],jsonData);
+            fs.writeFileSync(path,jsonData);
         })
         $("#Open").on("click",async function(){
             let odb=await dialog.showOpenDialog();
@@ -159,6 +181,10 @@ $(document).ready(
         function init(){
             $("#File").trigger("click")
             $("#New").click();
+            $("#Home").trigger("click")
+            let rows=$("#grid .row")
+            let cells=$(rows[0]).find(".cell")
+            $(cells).eq(0).click();
         }
         init();
     }

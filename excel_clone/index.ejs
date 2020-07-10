@@ -20,7 +20,54 @@
             <div class="ib" id="Save">Save</div>
         </div>
         <div class="menu-options-item" id="Home-options">
-
+            <div class="menu-group">
+                <div class="menu-row">
+                    <select name="" id="font-family">
+                        <option value="Arial">Arial</option>
+                        <option value="Cambria">Cambria</option>
+                        <option value="Courier">Courier</option>
+                        <option value="Charcole">Charcole</option>
+                        <option value="cursive">cursive</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Impact">Impact</option>
+                        <option value="Lucida Console">Lucida Console</option>
+                        <option value="monospace">monospace</option>
+                        <option value="sans-serif">sans-serif</option>
+                        <option value="sans">sans</option>
+                        <option value="serif">serif</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                    </select>
+                    <select name="" id="font-size">
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                        <option value="16">16</option>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                        <option value="22">22</option>
+                        <option value="24">24</option>
+                        <option value="26">26</option>
+                        <option value="28">28</option>
+                        <option value="30">30</option>
+                        <option value="32">32</option>
+                    </select>
+                </div>
+                <div class="menu-row">
+                    <input type="button" value="B" id="bold">
+                    <input type="button" value="U" id="underline">
+                    <input type="button" value="I" id="italic">
+                    <input type="color" name="bg-color" id="bg-color" value="#FFFFFF">
+                    <input type="color" name="text-color" id="text-color" value="#000000">
+                </div>
+            </div>
+            <div class="menu-group">
+                <div class="menu-row">
+                    <input type="button" value="L" id="left" class="bold">
+                    <input type="button" value="C" id="center" class="bold">
+                    <input type="button" value="R" id="right" class="bold">
+                </div>
+            </div>
         </div>
     </div>
     <div class="formula-bar">
@@ -28,7 +75,7 @@
         <input type="text" id="address-container">
         <input type="text" id="formula-container">
     </div>
-    <div class="cell-container">
+    <div class="cell-container" id="cell-container">
         <div class="top-left-cell" id="top-left-cell">
 
         </div>
@@ -39,7 +86,7 @@
                 </div>
             <%}%>
         </div>
-        <div class="left-col" id="leftcol">
+        <div class="left-col" id="left-col">
             <%for(let i=1;i<=rows;i++){%>
                 <div class="cell" id="cell">
                     <%=i%>
