@@ -5,6 +5,8 @@ $(document).ready(
     function(){
         let db=[];
         let lastSCell;
+        let lastRowCell;
+        let LastColCell;
         $("#grid .cell").on("click",function(){
             let rid=Number($(this).attr("row-id"));
             let cid=Number($(this).attr("col-id"));
@@ -43,9 +45,25 @@ $(document).ready(
                 $("#center").removeClass("selected")
                 $("#left").removeClass("selected")
             }
+            // highlighting top row and left col
+            let rows=$("#top-row").find(".cell")
+            let cols=$("#left-col").find(".cell");
+            //removing last highlighted cell
+            if(lastRowCell&&lastRowCell!=rows[cid]){
+                $(lastRowCell).removeClass("highlighted")
+            }
+            if(LastColCell&&LastColCell!=cols[rid]){
+                $(LastColCell).removeClass("highlighted")
+            }
+            //highlighting cell 
+            $(rows[cid]).addClass("highlighted")
+            $(cols[rid]).addClass("highlighted")
+            lastRowCell=rows[cid];
+            LastColCell=cols[rid];
             $(this).addClass("selected");
-            if (lastSCell && lastSCell != this)
+            if (lastSCell && lastSCell != this){
                 $(lastSCell).removeClass("selected");
+            }
             lastSCell = this;
         })
         $(".menu-items").on("click",function(){
@@ -110,6 +128,21 @@ $(document).ready(
             let {rowId,colId}=getRcFromAddress(address);
             let cellObject=getCellObject(rowId,colId);
             let formula=$(this).val();
+            if(formula.length==0)
+            return;
+            //formula validation
+            if(formula.charAt(0)!="("||formula.charAt(formula.length-1)!=")"){
+                dialog.showErrorBox("Please Check the Formula","Use proper brackets");
+                return;
+            }
+            for(let i=0;i<formula.length-1;i++){
+                let ch=formula.charAt(i);
+                let ch1=formula.charAt(i+1);
+                if((ch=="("||ch=="+"||ch=="-"||ch=="*"||ch=="/")&&ch1!=" "){
+                    dialog.showErrorBox("Please Check the Formula","1) Make sure to use space after every operator and operand");
+                    return;
+                }
+            }
             if(cellObject.formula==$(this).val()){
                 return;
             }
@@ -117,6 +150,12 @@ $(document).ready(
                 removeFormula(cellObject,rowId,colId)
             }
             cellObject.formula=formula;
+            // let isCycle=cycle(cellObject,formula);
+            // if(isCycle){
+            //     dialog.showErrorBox("There are one or more circular references where formula reffers to its own cell","Try removing or changing these references")
+            //     cellObject.formula="";
+            //     return;
+            // }
             let evaluatedVal=evaluate(cellObject);
             setUpFormula(rowId,colId,formula)
             updateCell(rowId,colId,evaluatedVal,cellObject);
@@ -278,13 +317,29 @@ $(document).ready(
             let {rowId,colId}=getRc(selectedCell);
             db[rowId][colId].align=isRight?"right":"left";
         })
+        // function cycle(cellObject,formula){
+        //     let formulaComponent=formula.split(" ");
+        //     for(let i=0;i<formulaComponent.length;i++){
+        //         let code=formulaComponent[i].charCodeAt(0);
+        //         if(code>=65&&code<=90){
+        //             let parentRc=getRcFromAddress(formulaComponent[i]);
+        //             for(let j=0;j<cellObject.downstream.length;j++){
+        //                 let childRCObj=cellObject.downstream[j];
+        //                 if(childRCObj.rowId==parentRc.rowId&&childRCObj.colId==parentRc.colId){
+        //                     return true;
+        //                 }
+        //                 let childObj=getCellObject(childRCObj.rowId,childRCObj.colId);
+        //                 let childCycle=cycle(childObj,formula)
+        //                 return childCycle;
+        //             }
+        //         }
+        //     } 
+        //     return false;
+        // }
         function init(){
             $("#File").trigger("click")
             $("#New").click();
             $("#Home").trigger("click")
-            let rows=$("#grid .row")
-            let cells=$(rows[0]).find(".cell")
-            $(cells).eq(0).click();
         }
         init();
     }

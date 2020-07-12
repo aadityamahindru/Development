@@ -62,13 +62,16 @@ input#formula-container {
 .left-col{
     position: absolute;
     top: 25px;
+    background-color: pink;
     z-index: 2;
 }
 .left-col>.cell{
     width: 30px;
     height: 25px;
-    background-color: pink;
     border: 1px solid;
+}
+.highlighted{
+    background-color: hotpink;
 }
 .grid{
     position: absolute;
