@@ -7,6 +7,7 @@ $(document).ready(
         let lastSCell;
         let lastRowCell;
         let LastColCell;
+        let cut,copy,paste;
         $("#grid .cell").on("click",function(){
             let rid=Number($(this).attr("row-id"));
             let cid=Number($(this).attr("col-id"));
@@ -45,14 +46,20 @@ $(document).ready(
                 $("#center").removeClass("selected")
                 $("#left").removeClass("selected")
             }
+            // drowpdown selected item value corrosponding to ccell
+            $("#font-family").val(cellObject.fontfamily)
+            $("#font-size").val(cellObject.fontSize)
+            //color corrosponding to cell
+            $("#text-color").val(cellObject.textColor)
+            $("#bg-color").val(cellObject.bgColor)
             // highlighting top row and left col
             let rows=$("#top-row").find(".cell")
             let cols=$("#left-col").find(".cell");
             //removing last highlighted cell
-            if(lastRowCell&&lastRowCell!=rows[cid]){
+            if(lastRowCell!=rows[cid]){
                 $(lastRowCell).removeClass("highlighted")
             }
-            if(LastColCell&&LastColCell!=cols[rid]){
+            if(LastColCell!=cols[rid]){
                 $(LastColCell).removeClass("highlighted")
             }
             //highlighting cell 
@@ -65,6 +72,13 @@ $(document).ready(
                 $(lastSCell).removeClass("selected");
             }
             lastSCell = this;
+        })
+        $("#grid .cell").on("keyup",function(){
+            let height=$(this).outerHeight();
+            let rid=Number($(this).attr("row-id"));
+            let cols=$("#left-col").find(".cell");
+            $(cols[rid]).css("height",height+"px");
+
         })
         $(".menu-items").on("click",function(){
             $(".menu-options-item").removeClass("selected");
@@ -88,12 +102,12 @@ $(document).ready(
                         underline: false,
                         italic: false,
                         textColor: "#000000",
-                        bgColor: "white",
+                        bgColor: "#FFFFFF",
                         align: 'left'
                     }
                     $(cells[j]).html("");
                     $(cells[j]).css("font-family",cell.fontfamily);
-                    $(cells[j]).css("font-size",cell.fontSize);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
                     $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
                     $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
                     $(cells[j]).css("font-style",cell.italic?"italic":"normal");
@@ -250,9 +264,11 @@ $(document).ready(
             for(let i=0;i<rows.length;i++){
                 let cells=$(rows[i]).find(".cell");
                 for(let j=0;j<cells.length;j++){
+                    let cell=db[i][j]
+                    console.log(cell)
                     $(cells[j]).html(dbs[i][j].value);
                     $(cells[j]).css("font-family",cell.fontfamily);
-                    $(cells[j]).css("font-size",cell.fontSize);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
                     $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
                     $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
                     $(cells[j]).css("font-style",cell.italic?"italic":"normal");
@@ -316,6 +332,68 @@ $(document).ready(
             let selectedCell=$("#grid .cell.selected");
             let {rowId,colId}=getRc(selectedCell);
             db[rowId][colId].align=isRight?"right":"left";
+        })
+        $("#font-size").on("change",function(){
+          let fontSize=$(this).val();
+          $("#grid .cell.selected").css("font-size",fontSize+"px");
+          let selectedCell=$("#grid .cell.selected");
+          let {rowId,colId}=getRc(selectedCell);
+          db[rowId][colId].fontSize=fontSize;
+        })
+        $("#font-family").on("change",function(){
+            let fontfamily=$(this).val();
+            $("#grid .cell.selected").css("font-family",fontfamily);
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].fontfamily=fontfamily;
+          })
+          $("#text-color").on("change",function(){
+              let textColor=$(this).val();
+              $("#grid .cell.selected").css("color",textColor);
+              let selectedCell=$("#grid .cell.selected");
+              let {rowId,colId}=getRc(selectedCell);
+              db[rowId][colId].textColor=textColor;
+          })
+          $("#bg-color").on("change",function(){
+            let bgColor=$(this).val();
+            $("#grid .cell.selected").css("background-color",bgColor);
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            db[rowId][colId].bgColor=bgColor;
+        })
+
+        //cut,copy,paste button
+        $("#copy").on("click",function(){
+            copy=$("#grid .cell.selected").html();
+            cut="";
+        })
+        $("#cut").on("click",function(){
+            cut=$("#grid .cell.selected").html();
+            copy="";
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            let cellObject=getCellObject(rowId,colId)
+            if(cellObject.formula){
+                removeFormula(cellObject,rowId,colId);
+            }
+            $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html("");
+        })
+        $("#paste").on("click",function(){
+            paste=cut?cut:copy
+            $("#grid .cell.selected").html=paste;
+            if(!cut&&!copy){
+                return
+            }
+            let selectedCell=$("#grid .cell.selected");
+            let {rowId,colId}=getRc(selectedCell);
+            let cellObject=getCellObject(rowId,colId)
+            if(cellObject.formula){
+                removeFormula(cellObject,rowId,colId);
+            }
+            updateCell(rowId,colId,paste,cellObject)
+            paste=""
+            cut=""
+            copy=""
         })
         // function cycle(cellObject,formula){
         //     let formulaComponent=formula.split(" ");

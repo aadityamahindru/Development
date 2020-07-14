@@ -7,31 +7,33 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 *{
     box-sizing: border-box;
 }
+/* menu-bar */
 .menu {
     height: 22px;
-    border: 1px solid red;
-    background-color: deeppink;
+    border: 1px;
+    background-color: #038497;
+    color: white;
 }
 .menu-options {
     height: 56px;
-    border: 1px solid green;
-    background-color: lightcoral;
+    border: 1px;
+    background-color: #0AB2CB;
 }
 .sheets {
     height: 20px;
-    border: 1px solid darkslategray;
-    background-color: palevioletred;
+    border: 1px;
+    background-color:#0AB2CB;
 }
 .formula-bar {
     height: 26px;
-    border: 1px solid yellow;
-    background-color: sandybrown;
+    border: 1px;
+    background-color:#0AB2CB;
 }
 input#address-container {
     width: 82px;
 }
 input#formula-container {
-    width: 862px;
+    width: 867px;
 }
 .cell-container {
     height: calc(100vh - 124px);
@@ -41,7 +43,7 @@ input#formula-container {
 .top-left-cell{
     height: 25px;
     width: 30px;
-    background-color:hotpink;
+    background-color:#1D99AB;
     position: absolute;
     z-index: 3;
 }
@@ -52,7 +54,7 @@ input#formula-container {
     top: 0px;
     height: 25px;
     text-align: center;
-    background-color:pink;
+    background-color:#93ECF9;
     z-index: 2;
 }
 .top-row>.cell{
@@ -62,7 +64,7 @@ input#formula-container {
 .left-col{
     position: absolute;
     top: 25px;
-    background-color: pink;
+    background-color: #93ECF9;
     z-index: 2;
 }
 .left-col>.cell{
@@ -71,7 +73,8 @@ input#formula-container {
     border: 1px solid;
 }
 .highlighted{
-    background-color: hotpink;
+    background-color: #147280;
+    color: white;
 }
 .grid{
     position: absolute;
@@ -116,7 +119,8 @@ select#font-size {
     width: 53px;
 }
 input[type="button"].selected{
-    background-color: lightslategray;
+    background-color: #147280;
+    color: white;
 }
 #File-options>div{
     width: 50px;
@@ -127,7 +131,7 @@ input[type="button"].selected{
     color: aliceblue;
 }
 input[type="text"] {
-    background-color: cornsilk;
+    background-color: azure;
     border: 1.5px solid black;
 }
 input#bold {
@@ -143,4 +147,7 @@ input#italic {
 }
 .bold{
     font-weight: bold;
+}
+.home-button {
+    width: 25px;
 }
