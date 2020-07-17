@@ -88,25 +88,20 @@ $(document).ready(
         })
         //move from one cell to another on arrow key press
         $("#grid .cell").keydown(function(e){
-            let t=0,r=0,l=0,d=0;
             let rid=Number($(this).attr("row-id"));
             let cid=Number($(this).attr("col-id"));
             switch(e.which){
                 case 37: $(`#grid .cell[row-id=${rid}][col-id=${cid-1}]`).focus(); //left arrow
-                         l++;
-                         highlightedRC(rid,cid-l)
+                         $(`#grid .cell[row-id=${rid}][col-id=${cid-1}]`).click();
                          break;
                 case 38: $(`#grid .cell[row-id=${rid-1}][col-id=${cid}]`).focus(); // top arrow
-                         t++;
-                         highlightedRC(rid-t,cid);
+                         $(`#grid .cell[row-id=${rid-1}][col-id=${cid}]`).click(); 
                          break;
                 case 39: $(`#grid .cell[row-id=${rid}][col-id=${cid+1}]`).focus(); //right arrow
-                         r++;
-                         highlightedRC(rid,cid+r)
+                         $(`#grid .cell[row-id=${rid}][col-id=${cid+1}]`).click();
                          break;
                 case 40: $(`#grid .cell[row-id=${rid+1}][col-id=${cid}]`).focus(); //down arrow
-                         d++;
-                         highlightedRC(rid+d,cid)
+                         $(`#grid .cell[row-id=${rid+1}][col-id=${cid}]`).click()
                          break;
             }
         })
@@ -444,10 +439,10 @@ $(document).ready(
             $("#File").trigger("click")
             $("#New").click();
             $("#Home").trigger("click")
-            // let rows=$("#grid .row")
-            // let cells=$(rows[0]).find(".cell")
-            // $(cells).eq(0).click();
-            // $(cells).eq(0).focus();
+            let rows=$("#grid .row")
+            let cells=$(rows[0]).find(".cell")
+            $(cells).eq(0).focus();
+            $(cells).eq(0).click();
         }
         init();
     }

@@ -33,7 +33,7 @@ input#address-container {
     width: 82px;
 }
 input#formula-container {
-    width: 867px;
+    width: calc(97vw - 82px);
 }
 .cell-container {
     height: calc(100vh - 124px);
