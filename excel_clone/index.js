@@ -1,5 +1,6 @@
 const $=require("jquery")
-let fs=require("fs")
+let fs=require("fs");
+const { get } = require("https");
 let dialog=require("electron").remote.dialog;
 $(document).ready(
     function(){
@@ -52,33 +53,62 @@ $(document).ready(
             //color corrosponding to cell
             $("#text-color").val(cellObject.textColor)
             $("#bg-color").val(cellObject.bgColor)
-            // highlighting top row and left col
-            let rows=$("#top-row").find(".cell")
-            let cols=$("#left-col").find(".cell");
-            //removing last highlighted cell
-            if(lastRowCell!=rows[cid]){
-                $(lastRowCell).removeClass("highlighted")
-            }
-            if(LastColCell!=cols[rid]){
-                $(LastColCell).removeClass("highlighted")
-            }
-            //highlighting cell 
-            $(rows[cid]).addClass("highlighted")
-            $(cols[rid]).addClass("highlighted")
-            lastRowCell=rows[cid];
-            LastColCell=cols[rid];
+            highlightedRC(rid,cid);
             $(this).addClass("selected");
             if (lastSCell && lastSCell != this){
                 $(lastSCell).removeClass("selected");
             }
             lastSCell = this;
         })
+        function highlightedRC(rid,cid){
+            if(cid<0||cid>26||rid<0||rid>100){
+                return;
+            }
+            let rows=$("#top-row").find(".cell")
+            let cols=$("#left-col").find(".cell");
+            //removing last highlighted cell
+            if(lastRowCell!=rows[cid]){
+            $(lastRowCell).removeClass("highlighted")
+            }
+            if(LastColCell!=cols[rid]){
+            $(LastColCell).removeClass("highlighted")
+            }
+            //highlighting cell 
+            $(rows[cid]).addClass("highlighted")
+            $(cols[rid]).addClass("highlighted")
+            lastRowCell=rows[cid];
+            LastColCell=cols[rid];
+        }
         $("#grid .cell").on("keyup",function(){
             let height=$(this).outerHeight();
             let rid=Number($(this).attr("row-id"));
             let cols=$("#left-col").find(".cell");
             $(cols[rid]).css("height",height+"px");
 
+        })
+        //move from one cell to another on arrow key press
+        $("#grid .cell").keydown(function(e){
+            let t=0,r=0,l=0,d=0;
+            let rid=Number($(this).attr("row-id"));
+            let cid=Number($(this).attr("col-id"));
+            switch(e.which){
+                case 37: $(`#grid .cell[row-id=${rid}][col-id=${cid-1}]`).focus(); //left arrow
+                         l++;
+                         highlightedRC(rid,cid-l)
+                         break;
+                case 38: $(`#grid .cell[row-id=${rid-1}][col-id=${cid}]`).focus(); // top arrow
+                         t++;
+                         highlightedRC(rid-t,cid);
+                         break;
+                case 39: $(`#grid .cell[row-id=${rid}][col-id=${cid+1}]`).focus(); //right arrow
+                         r++;
+                         highlightedRC(rid,cid+r)
+                         break;
+                case 40: $(`#grid .cell[row-id=${rid+1}][col-id=${cid}]`).focus(); //down arrow
+                         d++;
+                         highlightedRC(rid+d,cid)
+                         break;
+            }
         })
         $(".menu-items").on("click",function(){
             $(".menu-options-item").removeClass("selected");
@@ -164,16 +194,32 @@ $(document).ready(
                 removeFormula(cellObject,rowId,colId)
             }
             cellObject.formula=formula;
-            // let isCycle=cycle(cellObject,formula);
-            // if(isCycle){
-            //     dialog.showErrorBox("There are one or more circular references where formula reffers to its own cell","Try removing or changing these references")
-            //     cellObject.formula="";
-            //     return;
-            // }
+            let set=new Set();
+            let cyclic=isCyclic(cellObject,set);
+            if(cyclic){
+                dialog.showErrorBox("There are one or more circular references where formula reffers to its own cell","Try removing or changing these references")
+                cellObject.formula="";
+                return;
+            }
             let evaluatedVal=evaluate(cellObject);
             setUpFormula(rowId,colId,formula)
             updateCell(rowId,colId,evaluatedVal,cellObject);
         })
+        function isCyclic(cellObject,set){
+            if(!set.has(cellObject)){
+                set.add(cellObject)
+                let children=cellObject.downstream;
+                children.forEach(function(childRC){
+                    chObj=getCellObject(childRC.rowId,childRC.colId);
+                    if(!set.has(chObj)){
+                        isCyclic(chObj,set)
+                    }
+                })
+            }else{
+                return true;
+            }
+            return false;
+        }
         function setUpFormula(rowId,colId,formula){
             let cellObject=getCellObject(rowId,colId);
             let formulaComponent=formula.split(" ");
@@ -195,7 +241,6 @@ $(document).ready(
             }
         }
         function evaluate(cellObject){
-            console.log(cellObject);
             let formula=cellObject.formula;
             let formulaComponent=formula.split(" ");
             for(let i=0;i<formulaComponent.length;i++){
@@ -395,29 +440,14 @@ $(document).ready(
             cut=""
             copy=""
         })
-        // function cycle(cellObject,formula){
-        //     let formulaComponent=formula.split(" ");
-        //     for(let i=0;i<formulaComponent.length;i++){
-        //         let code=formulaComponent[i].charCodeAt(0);
-        //         if(code>=65&&code<=90){
-        //             let parentRc=getRcFromAddress(formulaComponent[i]);
-        //             for(let j=0;j<cellObject.downstream.length;j++){
-        //                 let childRCObj=cellObject.downstream[j];
-        //                 if(childRCObj.rowId==parentRc.rowId&&childRCObj.colId==parentRc.colId){
-        //                     return true;
-        //                 }
-        //                 let childObj=getCellObject(childRCObj.rowId,childRCObj.colId);
-        //                 let childCycle=cycle(childObj,formula)
-        //                 return childCycle;
-        //             }
-        //         }
-        //     } 
-        //     return false;
-        // }
         function init(){
             $("#File").trigger("click")
             $("#New").click();
             $("#Home").trigger("click")
+            // let rows=$("#grid .row")
+            // let cells=$(rows[0]).find(".cell")
+            // $(cells).eq(0).click();
+            // $(cells).eq(0).focus();
         }
         init();
     }
