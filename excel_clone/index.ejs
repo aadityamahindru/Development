@@ -16,12 +16,12 @@
     </div>
     <div class="menu-options">
         <div class="menu-options-item" id="File-options">
-            <div class="ib"  id="New">New</div>
-            <div class="ib" id="Open">Open</div>
-            <div class="ib" id="Save">Save</div>
+            <button class="ib"  id="New"><i class="fa fa-file" aria-hidden="true"></i>  New</button>
+            <button class="ib" id="Open"><i class="fa fa-folder-open" aria-hidden="true"></i>  Open</button>
+            <button class="ib" id="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Save</button>
         </div>
         <div class="menu-options-item" id="Home-options">
-            <div class="menu-group">
+            <div class="menu-group-1">
                 <div class="menu-row">
                     <select name="" id="font-family" class="home-bg">
                         <option value="Arial" selected>Arial</option>
@@ -62,16 +62,32 @@
                     <input type="color" name="text-color" id="text-color" value="#000000" class="home-bg">
                 </div>
             </div>
-            <div class="menu-group">
+            <div class="menu-group-2">
                 <div class="menu-row">
-                    <input type="button" value="L" id="left" class="bold home-bg">
-                    <input type="button" value="C" id="center" class="bold home-bg">
-                    <input type="button" value="R" id="right" class="bold home-bg">
+                    <input type="button" value="L" id="left" class="home-bg bold">
+                    <input type="button" value="C" id="center" class="home-bg">
+                    <input type="button" value="R" id="right" class="home-bg">
                 </div>
                 <div class="menu-row">
                     <button id="cut" class="home-button home-bg"><i class="fa fa-cut"></i></button>
                     <button id="copy"class="home-button home-bg"><i class="fa fa-copy"></i></button>
                     <button id="paste"class="home-button home-bg"><i class="fa fa-paste"></i></button>
+                </div>
+            </div>
+            <div class="menu-group-3">
+                <div class="menu-row">
+                    <button class="insert-row" id="insert-row"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Row</button>
+                </div>
+                <div class="menu-row">
+                    <button class="delete-row" id="delete-row"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Row</button>
+                </div>
+            </div>
+            <div class="menu-group-4">
+                <div class="menu-row">
+                    <button class="insert-col" id="insert-col"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Column</button>
+                </div>
+                <div class="menu-row">
+                    <button class="delete-col home-bg" id="delete-col"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Column</button>
                 </div>
             </div>
         </div>

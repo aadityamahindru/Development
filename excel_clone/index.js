@@ -169,18 +169,12 @@ $(document).ready(
             let formula=$(this).val();
             if(formula.length==0)
             return;
-            //formula validation
-            if(formula.charAt(0)!="("||formula.charAt(formula.length-1)!=")"){
-                dialog.showErrorBox("Please Check the Formula","Use proper brackets");
+            //formula validation using regular expression
+            let regexp=/\(\s(?:[A-Z]\d{1,3}|\d*)(?:\s[+\/*-]\s(?:[A-Z]\d{1,3}|\d*))+\s\)/
+            let isValid=regexp.test(formula);
+            if(!isValid){
+                dialog.showErrorBox("Please check the formula","1) Make sure to use Space after every operator/operand \n2) Use opening and closing brackets")
                 return;
-            }
-            for(let i=0;i<formula.length-1;i++){
-                let ch=formula.charAt(i);
-                let ch1=formula.charAt(i+1);
-                if((ch=="("||ch=="+"||ch=="-"||ch=="*"||ch=="/")&&ch1!=" "){
-                    dialog.showErrorBox("Please Check the Formula","1) Make sure to use space after every operator and operand");
-                    return;
-                }
             }
             if(cellObject.formula==$(this).val()){
                 return;
@@ -189,29 +183,37 @@ $(document).ready(
                 removeFormula(cellObject,rowId,colId)
             }
             cellObject.formula=formula;
+            setUpFormula(rowId,colId,formula)
+            //check if formula refers to it self
+            let formulaComponent=formula.split(" ");
+            let self=formulaComponent.includes(address);
             let set=new Set();
-            let cyclic=isCyclic(cellObject,set);
-            if(cyclic){
-                dialog.showErrorBox("There are one or more circular references where formula reffers to its own cell","Try removing or changing these references")
-                cellObject.formula="";
+            let cyclic=isCyclic(cellObject,rowId,colId,set);
+            if(cyclic||self){
+                dialog.showErrorBox("There are one or more circular references where formula refers to its own cell","Try removing or changing these references")
+                removeFormula(cellObject,rowId,colId)
                 return;
             }
             let evaluatedVal=evaluate(cellObject);
-            setUpFormula(rowId,colId,formula)
             updateCell(rowId,colId,evaluatedVal,cellObject);
         })
-        function isCyclic(cellObject,set){
-            if(!set.has(cellObject)){
-                set.add(cellObject)
-                let children=cellObject.downstream;
-                children.forEach(function(childRC){
-                    chObj=getCellObject(childRC.rowId,childRC.colId);
-                    if(!set.has(chObj)){
-                        isCyclic(chObj,set)
+        function isCyclic(cellObject,rowId,colId,set){
+            let queue=[];
+            queue.push(cellObject)
+            while(queue.length>0){
+                let cellObj=queue.shift();
+                if(!set.has(JSON.stringify({rowId:rowId,colId:colId}))){
+                    set.add(JSON.stringify({rowId:rowId,colId:colId}));
+                    for(let i=0;i<cellObj.downstream.length;i++){
+                        let chRC=cellObj.downstream[i];
+                        let childObj=getCellObject(chRC.rowId,chRC.colId)
+                        if(!set.has(JSON.stringify({rowId:chRC.rowId,colId:chRC.colId}))){
+                            queue.push(childObj);
+                        }
                     }
-                })
-            }else{
-                return true;
+                }else{
+                    return true;
+                }
             }
             return false;
         }
@@ -247,11 +249,72 @@ $(document).ready(
                     formula=formula.replace(formulaComponent[i],value);
                 }
             }
-            console.log(formula);
-            let ans=eval(formula);
-            console.log(ans);
+            let ans=infixEval(formula);
             return ans;
         }
+        // solving the formula to get value
+        let opst=[];
+        let valst=[];
+        function infixEval(formula){
+            let formulacomp=formula.split(" ");
+            for(let i=0;i<formulacomp.length;i++){
+                let ch=formulacomp[i];
+                if(ch.localeCompare("(")==0){
+                    opst.push(ch);
+                }else if(ch.localeCompare(")")==0){
+                    while(opst[opst.length-1].localeCompare("(")!=0){
+                        let operator=opst.pop();
+                        let val2=valst.pop();
+                        let val1=valst.pop();
+                        let ans=solve(val1,val2,operator);
+                        valst.push(ans);
+                    }
+                    opst.pop();
+                }else if(ch.localeCompare("+")==0||ch.localeCompare("-")==0||ch.localeCompare("*")==0||ch.localeCompare("/")==0){
+                    while(opst.length>0&&(opst[opst.length-1].localeCompare("(")!=0)&&precedence(ch)<=precedence(opst[opst.length-1])){
+                        let operator=opst.pop();
+                        let val2=valst.pop();
+                        let val1=valst.pop();
+                        let ans=solve(val1,val2,operator);
+                        valst.push(ans);
+                    }
+                    opst.push(ch)
+                }else if(!isNaN(ch)){
+                    let no=Number(ch);
+                    valst.push(no);
+                }
+            }
+            while(opst.length>0){
+                let operator=opst.pop();
+                let val2=valst.pop();
+                let val1=valst.pop();
+                let ans=solve(val1,val2,operator);
+                valst.push(ans);
+            }
+            return valst.pop();
+        }
+        function precedence(operator){
+            if(operator.localeCompare("+")==0){
+                return 1;
+            }else if(operator.localeCompare("-")==0){
+                return 1;
+            }else if(operator.localeCompare("*")==0){
+                return 2;
+            }else{
+                return 2;
+            }
+        }
+        function solve(val1,val2,operator){
+            if(operator.localeCompare("+")==0){
+                return val1+val2;
+            }else if(operator.localeCompare("-")==0){
+                return val1-val2;
+            }else if(operator.localeCompare("*")==0){
+                return val1*val2;
+            }else{
+                return val1/val2;
+            }
+        }            // end of solve funtion
         function updateCell(rowId,colId,val,cellObject){
             $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html(val);
             cellObject.value=val;
@@ -305,7 +368,6 @@ $(document).ready(
                 let cells=$(rows[i]).find(".cell");
                 for(let j=0;j<cells.length;j++){
                     let cell=db[i][j]
-                    console.log(cell)
                     $(cells[j]).html(dbs[i][j].value);
                     $(cells[j]).css("font-family",cell.fontfamily);
                     $(cells[j]).css("font-size",cell.fontSize+"px");
@@ -379,6 +441,8 @@ $(document).ready(
           let selectedCell=$("#grid .cell.selected");
           let {rowId,colId}=getRc(selectedCell);
           db[rowId][colId].fontSize=fontSize;
+          //changing heigth of left col corrosponding to cell by calling keyup defined above
+          $(selectedCell).keyup();
         })
         $("#font-family").on("change",function(){
             let fontfamily=$(this).val();
@@ -417,6 +481,8 @@ $(document).ready(
                 removeFormula(cellObject,rowId,colId);
             }
             $(`#grid .cell[row-id=${rowId}][col-id=${colId}]`).html("");
+            //change left col height
+            $(selectedCell).keyup();
         })
         $("#paste").on("click",function(){
             paste=cut?cut:copy
@@ -435,14 +501,180 @@ $(document).ready(
             cut=""
             copy=""
         })
+        // 
+        $("#delete-row").on("click",function(){
+           let rowId= Number($("#grid .cell.selected").attr("row-id"));
+           if(Number.isNaN(rowId)){
+            dialog.showErrorBox("Can't delete a row","Please select a cell first")
+            return;
+            }
+            db.splice(rowId,1)
+            let row=[]
+            for(let col=0;col<db[0].length;col++){
+                let cell={
+                    value:"",
+                    formula:"",
+                    downstream:[],
+                    upstream:[],
+                    fontfamily: "Arial",
+                    fontSize: 12,
+                    bold: false,
+                    underline: false,
+                    italic: false,
+                    textColor: "#000000",
+                    bgColor: "#FFFFFF",
+                    align: 'left'
+                    }
+                row.push(cell);
+            }
+            db.push(row);
+            let rows=$("#grid").find(".row")
+            for(let i=rowId;i<rows.length;i++){
+                let cells=$(rows[i]).find(".cell");
+                for(let j=0;j<cells.length;j++){
+                    let cell=db[i][j]
+                    $(cells[j]).html(db[i][j].value);
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
+                }
+            }
+        })
+        $("#insert-row").on("click",function(){
+            let rowId= Number($("#grid .cell.selected").attr("row-id"));
+            if(Number.isNaN(rowId)){
+                dialog.showErrorBox("Can't add a row","Please select a cell first")
+                return;
+            }
+            let row=[]
+            for(let col=0;col<db[0].length;col++){
+                let cell={
+                    value:"",
+                    formula:"",
+                    downstream:[],
+                    upstream:[],
+                    fontfamily: "Arial",
+                    fontSize: 12,
+                    bold: false,
+                    underline: false,
+                    italic: false,
+                    textColor: "#000000",
+                    bgColor: "#FFFFFF",
+                    align: 'left'
+                    }
+                row.push(cell);
+            }
+            db.splice(rowId,0,row);
+            db.pop();
+             let rows=$("#grid").find(".row")
+            console.log($(rows[db.length-1]).html())
+            for(let i=rowId;i<rows.length;i++){
+                let cells=$(rows[i]).find(".cell");
+                for(let j=0;j<cells.length;j++){
+                    let cell=db[i][j]
+                    $(cells[j]).html(db[i][j].value);
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
+                }
+            }
+        })
+        $("#delete-col").on("click",function(){
+            let colId= Number($("#grid .cell.selected").attr("col-id"));
+            if(Number.isNaN(colId)){
+                dialog.showErrorBox("Can't delete a column","Please select a cell first")
+                return;
+            }
+            for(let row=0;row<db.length;row++){
+                let cell={
+                    value:"",
+                    formula:"",
+                    downstream:[],
+                    upstream:[],
+                    fontfamily: "Arial",
+                    fontSize: 12,
+                    bold: false,
+                    underline: false,
+                    italic: false,
+                    textColor: "#000000",
+                    bgColor: "#FFFFFF",
+                    align: 'left'
+                    }
+                    db[row].splice(colId,1);
+                    db[row].push(cell);
+            }
+            let rows=$("#grid").find(".row")
+            for(let i=0;i<rows.length;i++){
+                let cells=$(rows[i]).find(".cell");
+                for(let j=colId;j<cells.length;j++){
+                    let cell=db[i][j]
+                    $(cells[j]).html(db[i][j].value);
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
+                }
+            }
+        })
+        $("#insert-col").on("click",function(){
+            let colId= Number($("#grid .cell.selected").attr("col-id"));
+            if(Number.isNaN(colId)){
+                dialog.showErrorBox("Can't add a column","Please select a cell first")
+                return;
+            }
+            for(let row=0;row<db.length;row++){
+                let cell={
+                    value:"",
+                    formula:"",
+                    downstream:[],
+                    upstream:[],
+                    fontfamily: "Arial",
+                    fontSize: 12,
+                    bold: false,
+                    underline: false,
+                    italic: false,
+                    textColor: "#000000",
+                    bgColor: "#FFFFFF",
+                    align: 'left'
+                    }
+                    db[row].splice(colId,0,cell);
+                    db[row].pop();
+            }
+            let rows=$("#grid").find(".row")
+            for(let i=0;i<rows.length;i++){
+                let cells=$(rows[i]).find(".cell");
+                for(let j=colId;j<cells.length;j++){
+                    let cell=db[i][j]
+                    $(cells[j]).html(db[i][j].value);
+                    $(cells[j]).css("font-family",cell.fontfamily);
+                    $(cells[j]).css("font-size",cell.fontSize+"px");
+                    $(cells[j]).css("font-weight",cell.bold?"bold":"normal");
+                    $(cells[j]).css("text-decoration",cell.underline?"underline":"none");
+                    $(cells[j]).css("font-style",cell.italic?"italic":"normal");
+                    $(cells[j]).css("color",cell.textColor);
+                    $(cells[j]).css("background-color",cell.bgColor);
+                    $(cells[j]).css("text-align",cell.align);
+                }
+            }
+        })
         function init(){
             $("#File").trigger("click")
             $("#New").click();
             $("#Home").trigger("click")
-            let rows=$("#grid .row")
-            let cells=$(rows[0]).find(".cell")
-            $(cells).eq(0).focus();
-            $(cells).eq(0).click();
         }
         init();
     }

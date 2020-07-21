@@ -107,9 +107,14 @@ input#formula-container {
     display: flex;
 }
 /* home bar */
-.menu-group {
+.menu-group-1 {
     height: 100%;
     width: 209px;
+    padding: 2px;
+}
+.menu-group-2{
+    height: 100%;
+    width: 100px;
     padding: 2px;
 }
 input[type="color"] {
@@ -122,12 +127,16 @@ input[type="button"].selected{
     background-color: #147280;
     color: white;
 }
-#File-options>div{
-    width: 50px;
-    text-align: center;
+button.ib{
+    background-color: #c1e4f3;
+    width: 81px;
+    margin-top: 9px;
+    margin-left: 5px;
+    margin-right: 10px;
+    height: 39px;
 }
 .ib:hover{
-    background-color: darkslategrey;
+    background-color: #147280;
     color: aliceblue;
 }
 input[type="text"] {
@@ -153,4 +162,29 @@ input#italic {
 }
 .home-bg{
     background-color: #c1e4f3;
+}
+button.delete-row {
+    background-color: #c1e4f3;
+    height: 23px;
+}
+button.insert-row {
+    width: 99px;
+    height: 23px;
+    margin-top: 4px;
+    background-color: #c1e4f3;
+}
+button.insert-col {
+    width: 118px;
+    background-color: #c1e4f3;
+    margin-top: 4px;
+    height: 23px;
+}
+button.delete-col {
+    height: 23px;
+}
+button:hover{
+    background-color: #147280;
+}
+.menu-group-3 {
+    width: 111px;
 }
