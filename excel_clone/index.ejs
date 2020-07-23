@@ -16,14 +16,14 @@
     </div>
     <div class="menu-options">
         <div class="menu-options-item" id="File-options">
-            <button class="ib"  id="New"><i class="fa fa-file" aria-hidden="true"></i>  New</button>
-            <button class="ib" id="Open"><i class="fa fa-folder-open" aria-hidden="true"></i>  Open</button>
-            <button class="ib" id="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Save</button>
+            <button class="ib mouse"  id="New"><i class="fa fa-file" aria-hidden="true"></i>  New</button>
+            <button class="ib mouse" id="Open"><i class="fa fa-folder-open" aria-hidden="true"></i>  Open</button>
+            <button class="ib mouse" id="Save"><i class="fa fa-floppy-o" aria-hidden="true"></i>  Save</button>
         </div>
         <div class="menu-options-item" id="Home-options">
             <div class="menu-group-1">
                 <div class="menu-row">
-                    <select name="" id="font-family" class="home-bg">
+                    <select name="" id="font-family">
                         <option value="Arial" selected>Arial</option>
                         <option value="Cambria">Cambria</option>
                         <option value="Courier">Courier</option>
@@ -38,7 +38,7 @@
                         <option value="serif">serif</option>
                         <option value="Times New Roman">Times New Roman</option>
                     </select>
-                    <select name="" id="font-size" class="home-bg">
+                    <select name="" id="font-size">
                         <option value="8">8</option>
                         <option value="10">10</option>
                         <option value="12" selected>12</option>
@@ -54,40 +54,54 @@
                         <option value="32">32</option>
                     </select>
                 </div>
-                <div class="menu-row">
-                    <input type="button" value="B" id="bold" class="home-bg">
-                    <input type="button" value="U" id="underline" class="home-bg">
-                    <input type="button" value="I" id="italic" class="home-bg">
-                    <input type="color" name="bg-color" id="bg-color" value="#FFFFFF" class="home-bg">
-                    <input type="color" name="text-color" id="text-color" value="#000000" class="home-bg">
-                </div>
+                <span id="font-group">Font</span>
             </div>
             <div class="menu-group-2">
                 <div class="menu-row">
-                    <input type="button" value="L" id="left" class="home-bg bold">
-                    <input type="button" value="C" id="center" class="home-bg">
-                    <input type="button" value="R" id="right" class="home-bg">
+                    <div id="bold" class="mouse hov"><i class="fa fa-bold" aria-hidden="true"></i></div>
+                    <div id="underline" class="mouse hov"><i class="fa fa-underline" aria-hidden="true"></i></div>
+                    <div id="italic" class="mouse hov"><i class="fa fa-italic" aria-hidden="true"></i></div>
                 </div>
                 <div class="menu-row">
-                    <button id="cut" class="home-button home-bg"><i class="fa fa-cut"></i></button>
-                    <button id="copy"class="home-button home-bg"><i class="fa fa-copy"></i></button>
-                    <button id="paste"class="home-button home-bg"><i class="fa fa-paste"></i></button>
+                    <div class="text-color"><i class="fa fa-font" aria-hidden="true"></i></div> 
+                    <div class="bg-color"><i class="fa fa-paint-brush" aria-hidden="true"></i></div>
                 </div>
+                <div class="menu-row">
+                    <input type="color" name="text-color" id="text-color" value="#000000">
+                    <input type="color" name="bg-color" id="bg-color" value="#FFFFFF">
+                </div>
+                <span id="styling-group">Styles</span>
             </div>
             <div class="menu-group-3">
                 <div class="menu-row">
-                    <button class="insert-row" id="insert-row"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Row</button>
+                    <div id="left"class="mouse hov align"><i class="fa fa-align-left" aria-hidden="true"></i></div>
+                    <div id="center" class="mouse hov align"><i class="fa fa-align-center" aria-hidden="true"></i></div>
+                    <div id="right" class="mouse hov align"><i class="fa fa-align-right" aria-hidden="true"></i></div>
                 </div>
-                <div class="menu-row">
-                    <button class="delete-row" id="delete-row"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Row</button>
-                </div>
+                <span id=align-group>Alignment</span>
             </div>
             <div class="menu-group-4">
                 <div class="menu-row">
-                    <button class="insert-col" id="insert-col"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Column</button>
+                    <div id="cut" class="mouse hov clip"><i class="fa fa-cut"></i></div>
+                    <div id="copy" class="mouse hov clip"><i class="fa fa-copy"></i></div>
+                    <div id="paste" class="mouse hov clip"><i class="fa fa-paste"></i></div>
+                </div>
+                <span class="clipboard">Clipboard</span>
+            </div>
+            <div class="menu-group-5">
+                <div class="menu-row">
+                    <div class="insert-row mouse hov" id="insert-row"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Row</div>
                 </div>
                 <div class="menu-row">
-                    <button class="delete-col home-bg" id="delete-col"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Column</button>
+                    <div class="delete-row mouse hov" id="delete-row"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Row</div>
+                </div>
+            </div>
+            <div class="menu-group-6">
+                <div class="menu-row">
+                    <div class="insert-col hov mouse" id="insert-col"><i class="fa fa-plus" aria-hidden="true"></i>  Insert Column</div>
+                </div>
+                <div class="menu-row">
+                    <div class="delete-col mouse hov" id="delete-col"><i class="fa fa-trash" aria-hidden="true"></i>  Delete Column</div>
                 </div>
             </div>
         </div>

@@ -3,47 +3,50 @@ padding: 0px;
 margin: 0px;
 font-size: 1rem;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+position: relative;
 }
 *{
     box-sizing: border-box;
 }
 /* menu-bar */
 .menu {
-    height: 22px;
+    height: 34px;
     border: 1px;
-    background-color: #038497;
+    background-color: #078d47;
     color: white;
 }
 .menu-options {
-    height: 56px;
+    height: 103px;
     border: 1px;
-    background-color: #0AB2CB;
+    background-color: #d3d3d375;
 }
 .sheets {
     height: 20px;
     border: 1px;
-    background-color:#0AB2CB;
+    background-color:#d6d6d6e6;
 }
 .formula-bar {
-    height: 26px;
+    height: 42px;
     border: 1px;
-    background-color:#0AB2CB;
+    border-top: 1px solid gray;
+    background-color: #d6d6d6e6;
 }
 input#address-container {
     width: 82px;
+    margin-top: 10px;
 }
 input#formula-container {
     width: calc(97vw - 82px);
 }
 .cell-container {
-    height: calc(100vh - 124px);
+    height: calc(100vh - 199px);
     overflow: auto;
     position: relative;
 }
 .top-left-cell{
     height: 25px;
     width: 30px;
-    background-color:#1D99AB;
+    background-color:darkgray;
     position: absolute;
     z-index: 3;
 }
@@ -54,7 +57,7 @@ input#formula-container {
     top: 0px;
     height: 25px;
     text-align: center;
-    background-color:#93ECF9;
+    background-color:#d6d6d6e6;
     z-index: 2;
 }
 .top-row>.cell{
@@ -64,7 +67,7 @@ input#formula-container {
 .left-col{
     position: absolute;
     top: 25px;
-    background-color: #93ECF9;
+    background-color: #d6d6d6e6;
     z-index: 2;
 }
 .left-col>.cell{
@@ -73,8 +76,8 @@ input#formula-container {
     border: 1px solid;
 }
 .highlighted{
-    background-color: #147280;
-    color: white;
+    background-color: darkgray;
+    border: 1px solid;
 }
 .grid{
     position: absolute;
@@ -87,7 +90,7 @@ input#formula-container {
 }
 .row>.cell{
     min-height: 25px;
-    border: 1px solid lightseagreen;
+    border: 1px solid #d6d6d6cf;
     min-width: 87px;
     text-align: center;
     max-width: 50px;
@@ -99,6 +102,7 @@ input#formula-container {
 .menu-items{
     text-align: center;
     width: 45px;
+    margin-top: 6px;
 }
 .menu-options-item{
     display: none;
@@ -108,24 +112,50 @@ input#formula-container {
 }
 /* home bar */
 .menu-group-1 {
-    height: 100%;
-    width: 209px;
+    height: 103px;
+    width: 215px;
     padding: 2px;
+    margin-left: 10px;
+    position: relative;
+    border-right: 1px solid darkgray;
+}
+select {
+    margin-top: 17px;
+}
+span#font-group {
+    position: absolute;
+    top: 84px;
+    left: 81px;
+    font-size: 12px;
 }
 .menu-group-2{
-    height: 100%;
-    width: 100px;
+    height: 103px;
+    margin-left: 13px;
+    width: 150px;
     padding: 2px;
+    border-right: 1px solid darkgray;
+    position: relative;
+}
+span#styling-group {
+    position: absolute;
+    left: 52px;
+    top: 84px;
+    font-size: 12px;
+}
+.menu-group-2>.menu-row {
+    display: flex;
 }
 input[type="color"] {
+    width: 48px;
+    margin-right: 14px;
+    margin-left: 9px;
+    height: 19px;
+}
+#font-size {
     width: 53px;
 }
-select#font-size {
-    width: 53px;
-}
-input[type="button"].selected{
-    background-color: #147280;
-    color: white;
+.hov.selected{
+    background-color: darkgray;
 }
 button.ib{
     background-color: #c1e4f3;
@@ -140,51 +170,102 @@ button.ib{
     color: aliceblue;
 }
 input[type="text"] {
-    background-color: azure;
+    background-color: white;
     border: 1.5px solid black;
 }
-input#bold {
+#bold {
+    width: 27px;
+    height: 27px;
+    text-align: center;
+    margin-top: 2px;
+    margin-left: 15px;
+    margin-bottom: 3px;
+}
+#underline {
     font-weight: bold;
+    width: 27px;
+    height: 27px;
+    text-align: center;
+    margin-top: 2px;
+    margin-left: 13px;
 }
-input#underline {
-    text-decoration: underline;
-    font-weight: bold;
+#italic {
+    width: 27px;
+    height: 27px;
+    text-align: center;
+    margin-left: 13px;
+    margin-top: 2px;
 }
-input#italic {
-    font-weight: bold;
-    font-style: italic;
+.text-color {
+    width: 56px;
+    margin-left: 25px;
 }
-.bold{
-    font-weight: bold;
-}
-.home-button {
-    width: 25px;
-}
-.home-bg{
-    background-color: #c1e4f3;
+.bg-color {
+    margin-left: 17px;
 }
 button.delete-row {
-    background-color: #c1e4f3;
     height: 23px;
 }
 button.insert-row {
     width: 99px;
     height: 23px;
     margin-top: 4px;
-    background-color: #c1e4f3;
 }
 button.insert-col {
     width: 118px;
-    background-color: #c1e4f3;
     margin-top: 4px;
     height: 23px;
 }
 button.delete-col {
     height: 23px;
 }
-button:hover{
-    background-color: #147280;
+.hov:hover{
+    background-color:darkgray;
 }
 .menu-group-3 {
     width: 111px;
+    border-right: 1px solid darkgray;
+    position: relative;
+}
+.menu-group-3>.menu-row {
+    display: flex;
+    margin-top: 14px;
+    margin-left: 15px;
+    margin-right: 5px;
+}
+.align{
+    width: 27px;
+    height: 27px;
+    text-align: center;
+}
+span#align-group {
+    position: absolute;
+    left: 25px;
+    top: 84px;
+    font-size: 12px;
+}
+.menu-group-4 {
+    position: relative;
+    width: 111px;
+    height: 103px;
+    border-right: 1px solid darkgray;
+}
+.menu-group-4>.menu-row {
+    display: flex;
+    margin-left: 11px;
+    margin-top: 13px;
+}
+.clip{
+    height: 27px;
+    width: 27px;
+    text-align: center;
+}
+span.clipboard {
+    position: absolute;
+    font-size: 12px;
+    top: 84px;
+    left: 30px;
+}
+.mouse{
+    cursor: pointer;
 }
