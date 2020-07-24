@@ -105,10 +105,13 @@ $(document).ready(
                          break;
             }
         })
-        $(".menu-items").on("click",function(){
-            $(".menu-options-item").removeClass("selected");
-            let id=$(this).attr("id");
-            $(`#${id}-options`).addClass("selected");
+        $("#File").on("click",function(){
+            $("#File-options").toggleClass("file-selected")
+            $("#Home-options").toggleClass("home-shift");
+        })
+        $("#Home").on("click",function(){
+            $("#File-options").removeClass("file-selected")
+            $("#Home-options").removeClass("home-shift");
         })
         $("#New").on("click",function(){
             let rows=$("#grid").find(".row")

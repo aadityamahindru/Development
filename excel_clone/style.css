@@ -103,12 +103,13 @@ input#formula-container {
     text-align: center;
     width: 45px;
     margin-top: 6px;
+    height: 28px;
 }
-.menu-options-item{
-    display: none;
-}
-.menu-options-item.selected{
+#Home-options{
     display: flex;
+}
+.menu-options-item-file{
+    display: none;
 }
 /* home bar */
 .menu-group-1 {
@@ -157,17 +158,9 @@ input[type="color"] {
 .hov.selected{
     background-color: darkgray;
 }
-button.ib{
-    background-color: #c1e4f3;
-    width: 81px;
-    margin-top: 9px;
-    margin-left: 5px;
-    margin-right: 10px;
-    height: 39px;
-}
 .ib:hover{
-    background-color: #147280;
-    color: aliceblue;
+    background-color:#125d07;
+    color: white;
 }
 input[type="text"] {
     background-color: white;
@@ -266,6 +259,67 @@ span.clipboard {
     top: 84px;
     left: 30px;
 }
+.menu-group-5 {
+    width: 102px;
+    margin-left: 20px;
+    position: relative;
+    border-right: 1px solid darkgray;
+}
+.menu-group-5>.menu-row {
+    margin-top: 7px;
+    margin-bottom: 9px;
+}
+span.row-edit {
+    position: absolute;
+    font-size: 12px;
+    top: 84px;
+    left: 3px;
+}
+.menu-group-6 {
+    position: relative;
+    margin-left: 18px;
+    width: 100px;
+}
+.menu-group-6>.menu-row {
+    margin-top: 7px;
+    margin-bottom: 9px;
+}
+span.column-edit {
+    font-size: 12px;
+    position: absolute;
+    top: 84px;
+}
 .mouse{
     cursor: pointer;
+}
+/* file options */
+.file-selected{
+    display: block;
+    height: 103px;
+    background-color: #078d47;
+    width: 108px;
+    position: relative;
+}
+div#New {
+    position: absolute;
+    top: 9px;
+    left: 20px;
+    color: white;
+}
+div#Open {
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    color: white;
+}
+div#Save {
+    position: absolute;
+    top: 68px;
+    left: 20px;
+    color: white;
+}
+.home-shift{
+    position: absolute;
+    top: 34px;
+    left: 100px;
 }
