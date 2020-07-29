@@ -13,6 +13,7 @@ function createWindow() {
         width: 800,
         height: 600,
         show: false,
+        icon:"icon.jpg",
         // to use node modules in electron,
         webPreferences: {
             nodeIntegration: true

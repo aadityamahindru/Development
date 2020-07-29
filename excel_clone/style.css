@@ -36,7 +36,7 @@ input#address-container {
     margin-top: 10px;
 }
 input#formula-container {
-    width: calc(97vw - 82px);
+    width: calc(97vw - 102px);
 }
 .cell-container {
     height: calc(100vh - 199px);
@@ -322,4 +322,5 @@ div#Save {
     position: absolute;
     top: 34px;
     left: 100px;
+    margin-left: 10px;
 }

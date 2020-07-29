@@ -29,7 +29,7 @@ function createWindow() {
         // console.log("App Loaded successfully");
         win.maximize();
         win.show();
-        win.webContents.openDevTools();
+        //win.webContents.openDevTools();
     })
 }
 app.whenReady().then(createWindow);
