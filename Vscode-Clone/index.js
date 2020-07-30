@@ -3,7 +3,7 @@ const path=require("path")
 let fs=require("fs")
 let myEditor,myMonaco;
 $(document).ready( async function(){
-    let myEditor=await createEditor();
+    myEditor=await createEditor();
     let src=process.cwd();
     let name=path.basename(src);
     let pObj={
@@ -39,6 +39,25 @@ $(document).ready( async function(){
         if(!isFile){
             return;
         }
+        setData(src)
+        $(".tab-container").append(`
+        <div class=tab id=${src} onclick=openTab(this)>${path.basename(src)}<i class="fa fa-close" onclick=closeTab(this)></i></div>
+        `)
+    })
+})
+function openTab(element){
+    let src=$(element).attr("id");
+    setData(src);
+}
+function closeTab(element){
+    $(element).parent().remove();
+    let tab=$(".tab-container").find(".tab").eq(0);
+    let src=$(tab).attr("id");
+    if(src){
+        setData(src);
+    }
+}
+function setData(src){
         let content=fs.readFileSync(src)+"";
         myEditor.getModel().setValue(content);
         let ext=src.split(".").pop();
@@ -46,8 +65,7 @@ $(document).ready( async function(){
             ext = "javascript"
         }
         myMonaco.editor.setModelLanguage(myEditor.getModel(), ext);
-    })
-})
+}
 function createChildnode(src){
     let isDir=fs.lstatSync(src).isDirectory();
     if(!isDir){
