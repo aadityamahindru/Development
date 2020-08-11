@@ -4,5 +4,7 @@ function handleTool(tool) {
         ctx.strokeStyle = "black";
     } else if (tool == "eraser") {
         ctx.strokeStyle = "white"
+    }else if(tool=="sticky"){
+        createSticky();
     }
 }

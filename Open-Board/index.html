@@ -14,11 +14,23 @@
         <div class="tool-panel">
             <div class="tool">
                 <img src="./NewIcons/Black_Pencil.svg" alt="" class="tool-img" id="pencil" onclick="handleTool('pencil')">
-                <div class="tool-options"></div>
+                <div class="tool-options">
+                    <div class="slider">
+                        <input type="range" name="" id="">
+                    </div>
+                    <div class="colors">
+                        <div class="color red"></div>
+                        <div class="color blue"></div>
+                        <div class="color green"></div>
+                    </div>
+                </div>
             </div>
             <div class="tool">
-                <img src="./NewIcons/Eraser.svg" alt="" class="tool-img" id="eraser" onclick="handleTool('eraser')">;
-                <div class="tool-options"></div>
+                <img src="./NewIcons/Eraser.svg" alt="" class="tool-img" id="eraser" onclick="handleTool('eraser')">
+                <!-- <div class="tool-options"></div> -->
+            </div>
+            <div class="tool">
+                <img src="./NewIcons/StickyNote.svg" alt="" class="tool-img" id="sticky" onclick="handleTool('sticky')">
             </div>
         </div>
     </div>
@@ -35,6 +47,7 @@
         })
     </script>
     <script src="tools.js"></script>
+    <script src="sticky.js"></script>
     <script src="canvas.js"></script>
 </body>
 

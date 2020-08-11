@@ -25,6 +25,9 @@ board.addEventListener("mouseup",function(e){
     isPenDown=false;
     
 })
+board.addEventListener("mouseleave",function(e){
+    isPenDown=false;
+})
 function getLocation() {
     let { top } = board.getBoundingClientRect();
     return top;

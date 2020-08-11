@@ -1,6 +1,7 @@
 html,body{
     padding: 0px;
     margin: 0px;
+    position: relative;
 }
 .tool-bar{
     height: 80px;
@@ -13,17 +14,89 @@ width:15%;
 background-color: yellow;
 }
 .tool-panel{
-height:90%;
-width:80%;
-background-color: lightcoral;
-display: flex;
-justify-content: center;
+    height:90%;
+    width:80%;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    display: flex;
+    justify-content: center;
 }
 .tool{
-height: 90%;;
+height: 90%;
+position: relative;
 }
-.tool-options{
-}
+
 .tool-img{
     height: 90%;
+}
+.tool-options {
+    height: 76px;
+    width: 137px;
+    background-color: yellowgreen;
+    background-image: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%);
+    position: absolute;
+    left: -62px;
+    top: 73px;
+}
+.slider {
+    width: 100%;
+    border-bottom: 1px solid darkblue;
+}
+.colors {
+    display: flex;
+    justify-content: space-evenly;
+}
+.color {
+    height: 40px;
+    width: 40px;
+    margin-top: 4px;
+    border-radius: 50%;
+}
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}
+.green{
+    background-color: green;
+}
+.sticky-pad{
+    height: 15rem;
+    width: 15rem;
+    position: absolute;
+    left: 50vw;
+    top: 35vh;
+}
+.nav-bar{
+    width: 100%;
+    height: 2.5rem;
+    background-color: coral;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.minimize{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background-color: red;
+    margin-right: 4px;
+}
+.close{
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 50%;
+    background-color: green;
+    margin-right: 4px;
+}
+.textbox{
+    height: 12.5rem;
+    width: 15rem;
+    background-color: antiquewhite;
+}
+textarea{
+    height: 100%;
+    width: 97.5%;
+    background-color: antiquewhite;
+    resize: none;
 }
