@@ -10,6 +10,8 @@ function createSticky() {
     stickyPad.setAttribute("class", "sticky-pad");
     navBar.setAttribute("class", "nav-bar");
     minimize.setAttribute("class", "minimize");
+    minimize.innerHTML='<i class="fa fa-window-minimize" aria-hidden="true"></i>'
+    close.innerHTML='<i class="fa fa-times" aria-hidden="true"></i>'
     close.setAttribute("class", "close");
     textBox.setAttribute("class", "textbox");
     textArea.setAttribute("autofocus", true);

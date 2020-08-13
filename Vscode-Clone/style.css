@@ -44,6 +44,7 @@ select {
 .tab-container {
     width: 78%;
     display: flex;
+    overflow: auto;
 }
 .tab{
     background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

@@ -1,5 +1,7 @@
 
 let isPenDown=false;
+let undoArr=[];
+let redoArr=[];
 board.addEventListener("mousedown",function(e){
     ctx.beginPath();
     let x=e.clientX;
@@ -9,6 +11,14 @@ board.addEventListener("mousedown",function(e){
     console.log("mouse down")
     ctx.moveTo(x,y);
     isPenDown=true;
+    let mdp={
+        x,
+        y,
+        id:"md",
+        color:ctx.strokeStyle,
+        width:ctx.lineWidth
+    }
+    undoArr.push(mdp)
 })
 board.addEventListener("mousemove",function(e){
     if(isPenDown){
@@ -18,6 +28,14 @@ board.addEventListener("mousemove",function(e){
         y = Number(y) - top
         ctx.lineTo(x,y);
         ctx.stroke();
+        let mmp={
+            x,
+            y,
+            id:"mm",
+            color:ctx.strokeStyle,
+            width:ctx.lineWidth
+        }
+        undoArr.push(mmp)
     }
     
 })
