@@ -37,6 +37,10 @@ function handleTool(tool) {
         redoWork();
     }else if(tool=='download'){
         download();
+    }else if(tool=="shape"){
+        drawShape();
+    }else if(tool=="line"){
+        drawLine();
     }
 }
 function changeColor(color){
