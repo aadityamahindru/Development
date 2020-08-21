@@ -4,6 +4,7 @@ let eraserWidth=5;
 let isShapeClick = false;
 ctx.lineCap = "round";
 ctx.lineJoin = 'round';
+let pencilColor="black"
 let pencilOptions=document.querySelector("#pencil-options")
 let eraserOptions=document.querySelector("#eraser-options")
 let activeTool='pencil';
@@ -15,7 +16,8 @@ function handleTool(tool) {
         }else if(activeTool=='pencil'){
             pencilOptions.classList.add("show");
         }else{
-            ctx.strokeStyle = "black";
+            ctx.strokeStyle =pencilColor;
+            ctx.globalCompositeOperation='source-over';       //default composite
             activeTool="pencil"
             ctx.lineWidth=pencilWidth
             eraserOptions.classList.remove("show")
@@ -26,8 +28,9 @@ function handleTool(tool) {
         }else if(activeTool=="eraser"){
             eraserOptions.classList.add("show")
         }else{
-            ctx.strokeStyle = "white"
+            //ctx.strokeStyle = "white"
             activeTool="eraser"
+            ctx.globalCompositeOperation = 'destination-out';
             ctx.lineWidth=eraserWidth
             pencilOptions.classList.remove("show")
         }
@@ -48,10 +51,9 @@ function handleTool(tool) {
         drawLine();
     }
 }
-
-//server-client changes
 function changeColor(color){
     ctx.strokeStyle=color
+    pencilColor=color;
     socket.emit("changeColor", color);
 }
 // change size

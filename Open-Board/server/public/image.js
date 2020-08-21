@@ -62,11 +62,16 @@ function uploadPicture() {
 
 // download image
 function download() {
+    let url = board.toDataURL();
     let a = document.createElement("a");
+    a.setAttribute("class","a")
     a.download = "canvas.png";
-    let url = board.toDataURL("image/png;base64");
     a.href = url;
+    document.body.appendChild(a);
     a.click();
-    a.remove();
+    document.querySelector(".a").addEventListener("click",function(e){
+        e.preventDefault();
+    })
+    document.body.removeChild(a);
 }
 
