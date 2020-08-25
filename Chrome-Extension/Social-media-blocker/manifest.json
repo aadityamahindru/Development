@@ -1,0 +1,18 @@
+{
+    "name": "Social Media Blocker",
+    "version": "1.0",
+    "description": "This extension is set a time limit for daily usage of any website after the limit is exceeded website will be blocked!",
+    "manifest_version": 2,
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": true
+    },
+    "permissions": [
+        "tabs"
+    ]
+}

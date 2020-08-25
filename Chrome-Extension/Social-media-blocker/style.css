@@ -1,0 +1,38 @@
+button{
+    border-radius: 18px;
+    background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin-top: 7px;
+    color: #160b0b;
+    border: 1px;
+    margin-bottom: 5px;
+}
+.input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+body{
+    background-image: linear-gradient(to top, #dad4ec 0%, #dad4ec 1%, #f3e7e9 100%);
+}
+button:hover{
+    border: 1px solid rebeccapurple;
+    background-color: white;
+}
+input[type="text"] {
+    border-radius: 20px;
+    border: 1px;
+    background-color: ghostwhite;
+}
+p {
+    color: darkmagenta;
+    border: 0px;
+    font-weight: bold;
+}
+.w3-card {
+    margin-bottom: 7px;
+    margin-left: 4px;
+    margin-right: 4px;
+    border-radius: 5px;
+    padding-left: 5px;
+    background-image: linear-gradient(to top, #dfe9f3 0%, white 100%);
+}
