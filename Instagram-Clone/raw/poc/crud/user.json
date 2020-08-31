@@ -1,0 +1,37 @@
+[
+    {
+        "name": "simreen",
+        "user_id": "sims1234",
+        "password": "12345",
+        "email": "sims@gmail.com",
+        "age": 21
+    },
+    {
+        "name": "aaditya",
+        "user_id": "aadi1234",
+        "password": "45125",
+        "email": "aadi5454@gmail.com",
+        "age": 21
+    },
+    {
+        "name": "divyata",
+        "user_id": "divs87",
+        "password": "451555",
+        "email": "divyata@gmail.com",
+        "age": 21
+    },
+    {
+        "name": "steve",
+        "user_id": "ste87",
+        "password": "555",
+        "email": "stevaaxyaaa@gmail.com",
+        "age": 25
+    },
+    {
+        "name": "sjhon",
+        "user_id": "jhon99",
+        "password": "556365",
+        "email": "jhonny@gmail.com",
+        "age": 15
+    }
+]
