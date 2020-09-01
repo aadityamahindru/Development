@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const userDB=require("./user.json");
+const postDB=require("./post.json")
 const fs=require("fs");
 const path=require("path");
 // create ==> post
@@ -30,7 +31,7 @@ app.get("/api/users/:user_id",function(req,res){
     })
 })
 // update => patch
-app.use(express.json());
+// app.use(express.json());
 app.patch("/api/users/:user_id",function(req,res){
     let{user_id}=req.params;
     let update=req.body;
@@ -41,11 +42,15 @@ app.patch("/api/users/:user_id",function(req,res){
             break;
         }
     }
-    user.name=update.name;
-    user.user_id=update.user_id;
-    user.password=update.password;
-    user.email=update.email;
-    user.age=update.age;
+    if(user==undefined){
+        return res.status(404).json({
+            sucess:"failure",
+            message:"user not found"
+        })
+    }
+    for(let key in update){
+        user[key]=update[key];
+    }
     fs.writeFileSync(path.join(__dirname,"user.json"),JSON.stringify(userDB));
     res.status(200).json({
         sucess:"sucessful",
@@ -69,6 +74,78 @@ app.delete("/api/users/:user_id",function(req,res){
         user:user!=undefined?user:"not found"
     })
 })
+
+//posts
+app.post("/api/posts",function(req,res){
+    let post=req.body;
+    postDB.push(post);
+    fs.writeFileSync(path.join(__dirname,"post.json"),JSON.stringify(postDB));
+    res.status(201).json({
+        sucess:"sucessful",
+        post:post
+    })
+})
+
+
+app.get("/api/posts/:postId",function(req,res){
+    let{postId}=req.params;
+    let post;
+    for(let i=0;i<postDB.length;i++){
+        if(postDB[i].postId==postId){
+            post=postDB[i];
+            break;
+        }
+    }
+    res.status(200).json({
+        status:"success recieved get request from client",
+        post:post!=undefined?post:"not found"
+    })
+})
+
+app.patch("/api/posts/:postId",function(req,res){
+    let{postId}=req.params;
+    let update=req.body;
+    let post;
+    for(let i=0;i<postDB.length;i++){
+        if(postDB[i].postId==postId){
+            post=postDB[i];
+            break;
+        }
+    }
+    if(post==undefined){
+        return res.status(404).json({
+            sucess:"failure",
+            message:"post not found"
+        })
+    }
+    for(let key in update){
+        post[key]=update[key];
+    }
+    fs.writeFileSync(path.join(__dirname,"post.json"),JSON.stringify(postDB));
+    res.status(200).json({
+        sucess:"sucessful",
+        post:post!=undefined?post:"not found"
+    })
+})
+
+app.delete("/api/posts/:postId",function(req,res){
+    let{postId}=req.params;
+    let i;
+    let post;
+    for(i=0;i<postDB.length;i++){
+        if(postDB[i].postId==postId){
+            post=postDB[i];
+            break;
+        }
+    }
+    postDB.splice(i,1);
+    fs.writeFileSync(path.join(__dirname,"post.json"),JSON.stringify(postDB));
+    res.status(200).json({
+        sucess:"sucessful",
+        post:post!=undefined?post:"not found"
+    })
+})
+
 app.listen(3000, function () {
     console.log("Server is listening at port 3000");
 })

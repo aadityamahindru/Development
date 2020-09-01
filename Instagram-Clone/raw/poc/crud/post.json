@@ -1,0 +1,35 @@
+[
+    {
+        "image_url": "",
+        "desc": "",
+        "tags": "",
+        "createdAt": "",
+        "postedBy": "",
+        "postId": ""
+    },
+    {
+        "image_url": "xyz_123",
+        "desc": "new pic",
+        "tags": "#bff",
+        "createdAt": "aadi",
+        "postedBy": "aadi",
+        "postId": "5457"
+    },
+    {
+        "image_url": "adsasa_123",
+        "desc": "new pic",
+        "tags": "#bff #home",
+        "createdAt": "steve",
+        "postedBy": "steve",
+        "postId": "steve87"
+    },
+    {
+        "image_url": "daveee_123",
+        "desc": "new pic",
+        "tags": "#bff #home",
+        "createdAt": "dave",
+        "postedBy": "dave",
+        "postId": "dave87",
+        "bio": "yoyo"
+    }
+]
