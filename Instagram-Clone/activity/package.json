@@ -5,13 +5,15 @@
   "main": "api.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon api.js"
+    "start": "nodemon api.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
