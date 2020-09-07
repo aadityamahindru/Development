@@ -1,18 +1,26 @@
 // const userDB = require("../model/user.json")
 const userModel = require("../model/userModel");
-function getUser(req, res) {
-    let { user_id } = req.params;
-    let user;
-    for (let i = 0; i < userDB.length; i++) {
-        if (userDB[i].user_id == user_id) {
-            user = userDB[i];
-            break;
+async function getUser(req, res) {
+    try {
+        let { user_id } = req.params;
+        let user = await userModel.getById(user_id);
+        if(user==undefined){
+            res.status(404).json({
+                status: "failure",
+                message:"User not found"
+            })
         }
+        res.status(200).json({
+            status: "User Found",
+            user: user
+        })
+
+    } catch (err) {
+        res.status(500).json({
+            sucess: "failure",
+            message: err.message
+        })
     }
-    res.status(200).json({
-        status: "success recieved get request from client",
-        user: user != undefined ? user : "not found"
-    })
 }
 
 async function createUser(req, res) {
@@ -22,10 +30,10 @@ async function createUser(req, res) {
             sucess: "sucessful",
             user: newUser
         })
-    }catch(err){
+    } catch (err) {
         res.status(500).json({
             sucess: "failure",
-            message:err.message
+            message: err.message
         })
     }
 }
