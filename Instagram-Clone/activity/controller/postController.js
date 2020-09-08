@@ -1,4 +1,4 @@
-const postDB=require("../model/post.json");
+const postDB=require("../model/userFollowerModel");
 function createPost(req,res){
     let post=req.body;
     postDB.push(post);

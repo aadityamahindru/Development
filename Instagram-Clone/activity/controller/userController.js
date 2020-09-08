@@ -37,7 +37,6 @@ async function createUser(req, res) {
         })
     }
 }
-
  async function updateUser(req, res) {
     let { user_id } = req.params;
     let updateObj = req.body;
@@ -75,6 +74,7 @@ async function deleteUser(req, res) {
         })
     }
 }
+//   ===========Request====================
 async function handleRequest(req,res){
     try{
         let reqObj=req.body;
@@ -133,10 +133,44 @@ async function rejectRequest(req,res){
         })
     }
 }
+
+async function getAllFollowers(req,res){
+    try{
+        let{user_id}=req.params;
+        let uFollowerObj=await userFollowerModel.getAllFollId(user_id);
+        if(uFollowerObj.length!=0){
+            async function helper(userFollowerObj){
+                let{follower_id,is_pending}=userFollowerObj;
+                let{handle,p_img_url}=await userModel.getById(follower_id);
+                return {handle,p_img_url,is_pending};
+            }
+            let follImgHandArr=[];
+            for(let i=0;i<uFollowerObj.length;i++){
+                let ans= await helper(uFollowerObj[i]);
+                follImgHandArr.push(ans);
+            }
+            res.status(201).json({
+                status: "sucessfull",
+                message:follImgHandArr
+            })
+        }else{
+            res.status(201).json({
+                status: "sucessfull",
+                message:"No user found"
+            })
+        }
+    }catch(err){
+        res.status(500).json({
+            sucess: "failure",
+            "message": err.message
+        })
+    }
+}
 module.exports.handleRequest=handleRequest;
 module.exports.createUser = createUser;
 module.exports.getUser = getUser;
 module.exports.deleteUser = deleteUser;
 module.exports.updateUser = updateUser;
 module.exports.acceptRequest=acceptRequest;
-module.exports.rejectRequest=rejectRequest;
+module.exports.rejectRequest=rejectRequest
+module.exports.getAllFollowers=getAllFollowers;
