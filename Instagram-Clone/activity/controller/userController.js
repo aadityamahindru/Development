@@ -101,8 +101,42 @@ async function handleRequest(req,res){
         })
     }
 }
+async function acceptRequest(req,res){
+    try{
+        let{user_id,follower_id}=req.params;
+        let{handle}=await userModel.getById(follower_id);
+        await userFollowerModel.acceptRequestQ(user_id,follower_id);
+        res.status(200).json({
+            status: "sucessfull",
+            message:`${handle} started following you.`
+        })
+    }catch(err){
+        res.status(500).json({
+            sucess: "failure",
+            "message": err.message
+        })
+    }
+}
+async function rejectRequest(req,res){
+    try{
+        let{user_id,follower_id}=req.params;
+        let{handle}=await userModel.getById(follower_id);
+        await userFollowerModel.rejectRequestQ(user_id,follower_id);
+        res.status(200).json({
+            status: "sucessfull",
+            message:`${handle} rejected`
+        })
+    }catch(err){
+        res.status(500).json({
+            sucess: "failure",
+            "message": err.message
+        })
+    }
+}
 module.exports.handleRequest=handleRequest;
 module.exports.createUser = createUser;
 module.exports.getUser = getUser;
 module.exports.deleteUser = deleteUser;
 module.exports.updateUser = updateUser;
+module.exports.acceptRequest=acceptRequest;
+module.exports.rejectRequest=rejectRequest;
