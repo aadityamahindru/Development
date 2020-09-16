@@ -1,0 +1,9 @@
+const{createEntityFact,getEntityFact,updateEntityFact,deleteEntityFact}=require("../utility/modelFactory")
+const create=createEntityFact("post");
+const getById=getEntityFact("post");
+const updateById=updateEntityFact("post");
+const deleteById=deleteEntityFact("post");
+module.exports.updateById=updateById;
+module.exports.create=create;
+module.exports.getById=getById;
+module.exports.deleteById=deleteById;

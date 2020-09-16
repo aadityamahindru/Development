@@ -14,3 +14,11 @@ CREATE TABLE IF NOT EXISTS user_follower(
     is_pending BOOLEAN DEFAULT true,
     INDEX (user_id)
 );
+CREATE TABLE IF NOT EXISTS post(
+    id VARCHAR(80) PRIMARY KEY ,
+    img_url VARCHAR(512) NOT NULL,
+    user_id VARCHAR(80) NOT NULL,
+    created_at DATETIME,
+    descp VARCHAR(200),   
+    INDEX (user_id)
+);

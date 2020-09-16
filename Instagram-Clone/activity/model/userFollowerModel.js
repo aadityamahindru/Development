@@ -1,4 +1,4 @@
-const db = require("./connection.js");
+const db = require("../utility/connection.js");
 
 //follower request to user
 const createRequest=function(mappingObj){

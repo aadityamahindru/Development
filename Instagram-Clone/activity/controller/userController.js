@@ -162,7 +162,7 @@ async function getAllFollowers(req,res){
     }catch(err){
         res.status(500).json({
             sucess: "failure",
-            "message": err.message
+            message: err.message
         })
     }
 }
