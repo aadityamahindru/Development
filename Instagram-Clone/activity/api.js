@@ -1,10 +1,12 @@
 const express=require("express");
 const app=express();
+
+
 const userRouter=require("./router/userRouter");
 const postRouter=require("./router/postRouter");
 
 // create ==> post
-app.use(express.static('view'));
+app.use(express.static('public'));
 app.use(express.json());
 
 app.use("/api/v1/users",userRouter);

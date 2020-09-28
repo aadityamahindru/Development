@@ -1,8 +1,12 @@
 import './App.css';
 import ProfileDetails from './components/user/ProfileDetails';
 import React, { Component } from 'react';
+import { Route, Switch, Redrict } from 'react-router-dom';
 // import React from 'react';
 import axios from 'axios';
+import Login from './components/Login';
+import Settings from './components/Settings';
+import PageNotFound from './components/PageNotFound'
 function ProfileMenu(props) {
   let { changeMenu } = props;
   return (
@@ -29,24 +33,24 @@ function Profile(props) {
   )
 }
 class UserView extends Component {
-  state = {  
-    cMenu:"suggestions",
-    list:[]
+  state = {
+    cMenu: "suggestions",
+    list: []
   }
-  changeMenu= async (nMenu)=>{
-    let obj= await axios.get("/api/v1/users/fr/ebdu1kckese771x");
-    let uFollArr=[];
-    if(nMenu=="followers"){
-      uFollArr=obj.data.message.filter(follower=>follower.is_pending==0);
-    }else if(nMenu=="request"){
-      uFollArr=obj.data.message.filter(follower=>follower.is_pending==1);
+  changeMenu = async (nMenu) => {
+    let obj = await axios.get("/api/v1/users/fr/ebdu1kckese771x");
+    let uFollArr = [];
+    if (nMenu == "followers") {
+      uFollArr = obj.data.message.filter(follower => follower.is_pending == 0);
+    } else if (nMenu == "request") {
+      uFollArr = obj.data.message.filter(follower => follower.is_pending == 1);
     }
     this.setState({
-      list:uFollArr,
-      cMenu:nMenu
+      list: uFollArr,
+      cMenu: nMenu
     })
   }
-  render() { 
+  render() {
     return (
       <div className="userView">
         <Profile changeMenu={this.changeMenu}></Profile>
@@ -55,18 +59,18 @@ class UserView extends Component {
     );
   }
 }
-function MenuList(props){
-  let{list}=props;
-  return(
+function MenuList(props) {
+  let { list } = props;
+  return (
     <div className="menu-list">
       {
-        list.map((follower)=>{
-          return(
+        list.map((follower) => {
+          return (
             <div>
-            <img src={follower.p_img_url} alt="profile-img"/>
-            <div>{follower.name}</div>
-            <div>{follower.handle}</div>
-          </div>
+              <img src={follower.p_img_url} alt="profile-img" />
+              <div>{follower.name}</div>
+              <div>{follower.handle}</div>
+            </div>
           )
         })
       }
@@ -75,10 +79,26 @@ function MenuList(props){
 }
 function App() {
   return (
-    <div className="app">
-      <UserView></UserView>
-      <div className="postView">Post View</div>
-    </div>
+    <React.Fragment>
+      <Switch>
+        <Route path="/" exact>
+          <Login></Login>
+        </Route>
+        <Route path="/profile" exact>
+          <div className="app">
+            <UserView></UserView>
+            <div className="postView">Post View</div>
+          </div>
+
+        </Route>
+        <Route path="/settings" exact>
+          <Settings></Settings>
+        </Route>
+        <Route>
+          <PageNotFound></PageNotFound>
+        </Route>
+      </Switch>
+    </React.Fragment>
   )
 }
 
