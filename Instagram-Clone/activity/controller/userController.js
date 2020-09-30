@@ -40,6 +40,10 @@ async function createUser(req, res) {
  async function updateUser(req, res) {
     let { user_id } = req.params;
     let updateObj = req.body;
+    if (req.file) {
+        img = req.file.filename;
+        updateObj.p_img_url = img;
+    }
      //sq=>update
     try{
         const response=await userModel.updateById(user_id,updateObj);

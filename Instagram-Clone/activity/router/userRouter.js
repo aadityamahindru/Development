@@ -27,7 +27,7 @@ const upload=multer({
 
 userRouter.post("/",createUser);
 
-userRouter.route("/:user_id").get(getUser).patch(upload.single("photo"),updateUser).delete(deleteUser);
+userRouter.route("/:user_id").get(getUser).patch(upload.single("user"),updateUser).delete(deleteUser);
 userRouter.route("/fr").post(handleRequest);
 userRouter.route("/fr/:user_id").get(getAllFollowers)
 userRouter.route("/fr/:user_id/:follower_id").patch(acceptRequest).delete(rejectRequest);
