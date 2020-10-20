@@ -1,0 +1,33 @@
+.center {
+    text-align: center;
+}
+
+.center-item {
+    align-items: center;
+}
+
+.full-height {
+    height: 100%;
+}
+
+body {
+    font-family: Josefin Sans;
+}
+
+a {
+    text-decoration: none;
+    color: #7c7171;
+
+    &:hover {
+        color: #5ae4ce;
+    }
+}
+.btn-1{
+   font-size: larger; 
+}
+.text-blue{
+    color:  #5ae4ce !important;
+}
+.container {
+    width: 100%;
+}

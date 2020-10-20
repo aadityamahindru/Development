@@ -1,5 +1,5 @@
 import './App.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch, Redrict } from 'react-router-dom';
 import UserView from './components/user/UserView'
 import Login from './components/Login';
