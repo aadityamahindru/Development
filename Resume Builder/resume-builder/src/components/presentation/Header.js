@@ -12,25 +12,25 @@ function Header() {
                 </div>
                 <div className="header-link-container full-height">
                     <ul>
-                        <li className='signup btn-1'>
+                        <li className='signup text-larger'>
                             <NavLink to="/register">
                                 Register
                             </NavLink>
                         </li>
                         <li className='signin'>
-                            <NavLink to="/login" className='text-blue btn-1'>
+                            <NavLink to="/login" className='text-blue text-larger'>
                                 Sign In
                                 </NavLink>
                         </li>
                     </ul>
                     <ul>
                         <li>
-                            <NavLink to="/resume-templates" className='btn-1'>
+                            <NavLink to="/resume-templates" className='text-larger'>
                                 Resume Templates
                                 </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/about-us" className='btn-1'>
+                            <NavLink to="/about-us" className='text-larger'>
                                 About Us
                                 </NavLink>
                         </li>

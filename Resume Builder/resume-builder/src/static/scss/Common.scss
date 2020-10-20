@@ -22,12 +22,22 @@ a {
         color: #5ae4ce;
     }
 }
-.btn-1{
+.text-larger{
    font-size: larger; 
 }
 .text-blue{
     color:  #5ae4ce !important;
 }
+.rounded-border{
+    border-radius: 20px;
+}
 .container {
     width: 100%;
+    z-index: 90;
+    margin-top: 70px;
+    &.mid{
+        width: 90%;
+        width: 90%;
+        margin: 70px 5% 0px 5%;
+    }
 }
