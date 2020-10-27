@@ -1,8 +1,33 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 import Preview from './Preview';
+import { fieldCd, skinCodes } from '../../constants/typeCodes';
 class Contact extends Component {
-    state = {}
+    state = {
+        contactSection: {
+            'FNAM': '',
+            'LNAM': '',
+            'PSRU': '',
+            'EMAI': '',
+            'PHON': '',
+            'PROF': '',
+            'STRT': '',
+            'CITY': '',
+            'STAT': '',
+            'CNTY': '',
+            'ZIPC': ''
+        }
+    }
+    onChange = (event) => {
+        let key = event.target.name;
+        let value = event.target.value;
+        let contactSection = this.state.contactSection
+        this.setState({ contactSection: { ...contactSection, [key]: value } })
+    }
+    onSubmit = () => {
+        console.log(this.state);
+        this.props.history.push('/education');
+    }
     render() {
         return (
             <div className='container mid contact full-height'>
@@ -13,7 +38,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>First Name</label>
                                 <div className='effect'>
-                                    <input type='text' name='FNAM' /><span></span>
+                                    <input type='text' name={fieldCd.FirstName} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -21,7 +46,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Last Name</label>
                                 <div className='effect'>
-                                    <input type='text' name='LNAM' /><span></span>
+                                    <input type='text' name={fieldCd.LastName} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -29,7 +54,7 @@ class Contact extends Component {
                             <div className='input-group full'>
                                 <label>Professional Summary</label>
                                 <div className='effect'>
-                                    <input type='text' name='PRSU' /><span></span>
+                                    <input type='text' name={fieldCd.ProfSummary} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -37,7 +62,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Email</label>
                                 <div className='effect'>
-                                    <input type='text' name='EMAI' /><span></span>
+                                    <input type='text' name={fieldCd.Email} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -45,7 +70,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Phone</label>
                                 <div className='effect'>
-                                    <input type='text' name='PHON' /><span></span>
+                                    <input type='text' name={fieldCd.Phone} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -53,7 +78,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Profession</label>
                                 <div className='effect'>
-                                    <input type='text' name='PROF' /><span></span>
+                                    <input type='text' name={fieldCd.Profession} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -61,7 +86,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Street</label>
                                 <div className='effect'>
-                                    <input type='text' name='STRT' /><span></span>
+                                    <input type='text' name={fieldCd.Street} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -69,7 +94,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>City</label>
                                 <div className='effect'>
-                                    <input type='text' name='CITY' /><span></span>
+                                    <input type='text' name={fieldCd.City} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -77,7 +102,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>State</label>
                                 <div className='effect'>
-                                    <input type='text' name='STAT' /><span></span>
+                                    <input type='text' name={fieldCd.State} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -85,7 +110,7 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Country</label>
                                 <div className='effect'>
-                                    <input type='text' name='CNTY' /><span></span>
+                                    <input type='text' name={fieldCd.Country} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
@@ -93,20 +118,20 @@ class Contact extends Component {
                             <div className='input-group'>
                                 <label>Pin Code</label>
                                 <div className='effect'>
-                                    <input type='text' name='ZIPC' /><span></span>
+                                    <input type='text' name={fieldCd.ZipCode} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className='error'></div>
                             </div>
 
                             <div className='form-buttons'>
-                                <button className='btn'>Next</button>
-                                <NavLink to='/education' className='center back-btn'>Back</NavLink>
+                                <button className='btn' onClick={this.onSubmit}>Next</button>
+                                <NavLink to='/getting-started' className='center back-btn'>Back</NavLink>
                             </div>
 
                         </div>
                     </div>
                     <div className='preview-card'>
-                        <Preview></Preview>
+                        <Preview contactSection={this.state.contactSection} skinCode={skinCodes}></Preview>
                     </div>
                 </div>
             </div>
