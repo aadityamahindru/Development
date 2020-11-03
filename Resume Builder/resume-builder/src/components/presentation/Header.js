@@ -25,7 +25,7 @@ function Header() {
                     </ul>
                     <ul>
                         <li>
-                            <NavLink to="/resume-templates" className='text-larger'>
+                            <NavLink to="/getting-started" className='text-larger'>
                                 Resume Templates
                                 </NavLink>
                         </li>

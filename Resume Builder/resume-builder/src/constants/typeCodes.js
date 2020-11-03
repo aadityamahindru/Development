@@ -1,4 +1,4 @@
- export const skinCodes = ['skin1', 'skin2', 'skin3','skin4','skin1', 'skin2', 'skin3','skin4' ];        
+ export const skinCodes = ['skin1', 'skin2', 'skin3','skin4','skin5', 'skin6', 'skin7','skin8' ];        
 
 export const fieldCd = {
     FirstName: "FNAM",

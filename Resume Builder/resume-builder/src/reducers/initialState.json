@@ -1,0 +1,30 @@
+{
+    "educationSection": {
+        "SCHO": "University Name",
+        "DGRE": "Btech",
+        "GRCG": "",
+        "GRDT": "Jul",
+        "GRYR": "2021",
+        "CITY": "VikasPuri",
+        "SCIT": "Rohini"
+    },
+    "contactSection": {
+        "FNAM": "Test",
+        "LNAM": "User",
+        "PRSU": "Enter Your Professional Summary",
+        "EMAI": "xxx@abc.com",
+        "PHON": "99XXXXXXX5",
+        "PROF": "SR. XYZ",
+        "STRT": "WXYZ",
+        "CITY": "Miami",
+        "STAT": "Florida",
+        "CNTY": "US States",
+        "ZIPC": "11XXX8"
+    },
+    "document":{
+        "documentId":null,
+        "skinCd":"",
+        "userId":null
+    },
+    "skillSection":{}
+}

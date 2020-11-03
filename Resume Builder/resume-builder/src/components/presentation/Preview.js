@@ -1,106 +1,38 @@
-import React from 'react'
+import React, { Component } from 'react'
+import { fieldCd } from '../../constants/typeCodes';
 
-function Preview(props) {
-    let { contactSection } = props;
-    return (
-        <div className='resume-preview'>
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.FNAM}</p>
+class Preview extends Component {
+    state = {
+        skinCode:"skin1"
+    }
+    render() {
+        let { contactSection, educationSection } = this.props;
+        let name = contactSection[fieldCd.FirstName] + ' ' + contactSection[fieldCd.LastName];
+        return (
+            // <div className={'resume-preview ' + this.props.skinCode}></div>
+            <div className={'resume-preview skin1'}>
+                <div className={'name-section'}>
+                    <p className={'center contact-name text-upper'}> {name} </p>
+                    <p className={'center address margin-small'}>{contactSection[fieldCd.Street] + ', ' + contactSection[fieldCd.SchoolCity] + ', ' + contactSection[fieldCd.State] + ', ' + contactSection[fieldCd.Country] + ', ' + contactSection[fieldCd.ZipCode]}</p>
+                    <p className={'center margin-small'}>{contactSection[fieldCd.Email]}</p>
+                    <p className={'center margin-small'}>{contactSection[fieldCd.Phone]}</p>
                 </div>
-            </div>
+                <div className={'professionalSection'}>
+                    <p className="heading bold uppercase">Professional Summary</p>
+                    <div className={'divider'}></div>
+                    <p> {contactSection[fieldCd.ProfSummary]}</p>
+                </div>
+                <div className={'educationSection'}>
+                    <p className="heading bold uppercase">EDUCATIONAL DETAILS</p>
+                    <div className={'divider'}></div>
+                    <p> {educationSection[fieldCd.SchoolName]+" , "+educationSection[fieldCd.SchoolCity]}</p>
+                    <p className='grad_info'>{educationSection[fieldCd.Degree]+"  "+"CGPA : "+educationSection[fieldCd.GraduationCGPA]}</p>
+                    <p className="grad_year">{educationSection[fieldCd.GraduationDate]+"  "+educationSection[fieldCd.GraduationYear]}</p>
+                </div>
 
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.LNAM}</p>
-                </div>
             </div>
-
-            <div className='input-group full'>
-                <div className='effect'>
-                    <p>{contactSection.PRSU}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.EMAI}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.PHON}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.PROF}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.STRT}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.CITY}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.STAT}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.CNTY}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.ZIPC}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.SCHO}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.DGRE}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.GRCG}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.GRDT}</p>
-                </div>
-            </div>
-
-            <div className='input-group'>
-                <div className='effect'>
-                    <p>{contactSection.GRYR}</p>
-                </div>
-            </div>
-        </div>
-    )
+        )
+    }
 }
 
-export default Preview
+export default  Preview;

@@ -2,21 +2,10 @@ import React, { Component } from 'react';
 import { NavLink} from 'react-router-dom';
 import Preview from './Preview';
 import { fieldCd, skinCodes } from '../../constants/typeCodes';
+import { connect } from 'react-redux';
 class Contact extends Component {
     state = {
-        contactSection: {
-            'FNAM': '',
-            'LNAM': '',
-            'PSRU': '',
-            'EMAI': '',
-            'PHON': '',
-            'PROF': '',
-            'STRT': '',
-            'CITY': '',
-            'STAT': '',
-            'CNTY': '',
-            'ZIPC': ''
-        }
+        contactSection:this.props.contactSection
     }
     onChange = (event) => {
         let key = event.target.name;
@@ -27,6 +16,7 @@ class Contact extends Component {
     onSubmit = () => {
         console.log(this.state);
         this.props.history.push('/education');
+        this.props.addContact(this.state.contactSection);
     }
     render() {
         return (
@@ -131,12 +121,20 @@ class Contact extends Component {
                         </div>
                     </div>
                     <div className='preview-card'>
-                        <Preview contactSection={this.state.contactSection} skinCode={skinCodes}></Preview>
+                        <Preview contactSection={this.state.contactSection} skinCode={"skin1"} educationSection={this.props.educationSection}></Preview>
                     </div>
                 </div>
             </div>
         );
     }
 }
+const mapStateToProps=(state,ownProps)=>{
+    return state;
+}
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        addContact:(contactSection)=>{dispatch({type:'ADD_CONTACT',contactSection:contactSection})}
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Contact);
 
-export default Contact;

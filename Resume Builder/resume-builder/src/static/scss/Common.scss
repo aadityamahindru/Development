@@ -45,3 +45,18 @@ a {
         margin: 70px 5% 0px 5%;
     }
 }
+.margin-small{
+    margin: 5px 0px;
+}
+.selected{
+    display: block;
+    position: absolute;
+    color: green;
+    margin: 10px;
+}
+.hide{
+    display: none !important;
+}
+.uppercase{
+    text-transform: uppercase;
+}

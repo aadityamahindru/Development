@@ -225,6 +225,8 @@
         $('.signin-section').addClass("hide");
         $('.signup-section').addClass("hide");
         $('.loggedInUser').text(user.email);
+        $(".open-login-form").addClass("hide")
+        $(".open-register-form").addClass("hide")
         db.collection("resumes").onSnapshot(res=>{
           let html='';
           res.docs.forEach(function(resume){
@@ -237,6 +239,8 @@
         })
       }else{
         $('.test').addClass("hide");
+        $(".open-login-form").removeClass("hide")
+        $(".open-register-form").removeClass("hide")
         $('.loggedInUser').text('');
         $('.signin-section').removeClass("hide");
       }

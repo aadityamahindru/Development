@@ -1,36 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { skinCodes } from '../../constants/typeCodes';
+import { fieldCd,skinCodes } from '../../constants/typeCodes';
 import Preview from './Preview';
 class Education extends Component {
     state = {
-        contactSection: {
-            'FNAM': 'Aaditya',
-            'LNAM': 'Mahindru',
-            'PSRU': 'hii',
-            'EMAI': 'aaditya2069@gmail.com',
-            'PHON': '9540111282',
-            'PROF': 'SDE',
-            'STRT': 'Vikaspuri',
-            'CITY': 'New Delhi',
-            'STAT': 'Delhi',
-            'CNTY': 'India',
-            'ZIPC': '110018',
-            'Scho': "",
-            'DGRE': "",
-            "GRCG": "",
-            "GRDT": "",
-            "GRYR": ""
-        }
+        contactSection:this.props.contactSection,
+        educationSection: this.props.educationSection,
     }
     onChange = (event) => {
         let key = event.target.name;
         let value = event.target.value;
-        let contactSection = this.state.contactSection
-        this.setState({ contactSection: { ...contactSection, [key]: value } })
+        let educationSection = this.state.educationSection
+        this.setState({ educationSection: { ...educationSection, [key]: value } })
     }
     onSubmit = () => {
         console.log(this.state);
+        this.props.history.push('/finalize');
+        this.props.addEducation(this.state.educationSection);
     }
     render() {
         return (
@@ -40,54 +27,61 @@ class Education extends Component {
                         <h2 className="form-heading center">Educational Details</h2>
                         <div className="form-section">
                             <div className="input-group"><label>College Name</label>
-                                <div className="effect"><input type="text" name="SCHO" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.SchoolName} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="input-group"><label>Degree</label>
-                                <div className="effect"><input type="text" name="DGRE" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.Degree} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="input-group"><label>CGPA</label>
-                                <div className="effect"><input type="text" name="GRCG" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.GraduationCGPA} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="input-group"><label>City/State</label>
-                                <div className="effect"><input type="text" name="CITY" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.City} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="input-group"><label>Graduation Month</label>
-                                <div className="effect"><input type="text" name="GRDT" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.GraduationDate} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="input-group"><label>Graduation Year</label>
-                                <div className="effect"><input type="text" name="GRYR" onChange={this.onChange} /><span></span>
+                                <div className="effect"><input type="text" name={fieldCd.GraduationYear} onChange={this.onChange} /><span></span>
                                 </div>
                                 <div className="error"></div>
                             </div>
 
                             <div className="form-buttons">
-                                <button className="btn hvr-float-shadow" type='button'>Next</button>
+                                <button className="btn hvr-float-shadow" type='button' onClick={this.onSubmit}>Next</button>
                                 <NavLink to='/contact' className="center">Back</NavLink>
                             </div>
                         </div>
                     </div>
                     <div className="preview-card">
-                        <Preview contactSection={this.state.contactSection} skinCode={skinCodes}></Preview>
+                        <Preview contactSection={this.state.contactSection} skinCode={"skin1"} educationSection={this.state.educationSection}></Preview>
                     </div>
                 </div>
             </div>
         );
     }
 }
-
-export default Education;
+const mapStateToProps=(state,ownProps)=>{
+    return state;
+}
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        addEducation:(educationSection)=>{dispatch({type:'ADD_EDUCATION',educationSection:educationSection})}
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Education);

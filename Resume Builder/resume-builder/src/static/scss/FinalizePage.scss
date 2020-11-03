@@ -1,0 +1,21 @@
+.funnel-section{
+    display: flex;
+
+    .finalize-settings{
+        width: 45%;
+       .section{
+           display: flex;
+           flex-direction: column;
+       }
+    }
+    .template-card{
+        width: 300px;
+        img{
+            object-fit: contain;
+        }
+    }
+    .finalize-preview-card{
+        width: 55%;
+        margin: 0px 10px;
+    }
+}
