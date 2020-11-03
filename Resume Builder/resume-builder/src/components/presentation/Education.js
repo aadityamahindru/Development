@@ -13,11 +13,11 @@ class Education extends Component {
         let value = event.target.value;
         let educationSection = this.state.educationSection
         this.setState({ educationSection: { ...educationSection, [key]: value } })
+        this.props.addEducation(this.state.educationSection);
     }
     onSubmit = () => {
         console.log(this.state);
         this.props.history.push('/finalize');
-        this.props.addEducation(this.state.educationSection);
     }
     render() {
         return (

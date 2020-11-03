@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux';
 import { fieldCd } from '../../constants/typeCodes';
 
 class Preview extends Component {
     state = {
-        skinCode:"skin1"
+        skinCode:this.props.skinCd,
     }
     render() {
         let { contactSection, educationSection } = this.props;
@@ -34,5 +35,7 @@ class Preview extends Component {
         )
     }
 }
-
-export default  Preview;
+const mapStateToProps=(state,ownProps)=>{
+    return {skinCd:state.document.skinCd}
+}
+export default connect(mapStateToProps,null)(Preview);
